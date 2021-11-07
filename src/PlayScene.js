@@ -17,9 +17,11 @@ class PlayScene extends Phaser.Scene {
     this.hitSound = this.sound.add('hit', {volume: 0.2});
     this.reachSound = this.sound.add('reach', {volume: 0.2});
 
-    this.startTrigger = this.physics.add.sprite(0, 10).setOrigin(0, 1).setImmovable();
-    this.ground = this.add.tileSprite(0, height, 88, 26, 'ground').setOrigin(0, 1)
-    this.dino = this.physics.add.sprite(0, height, 'dino-idle')
+    this.startTrigger = this.physics.add.sprite(0, 110).setOrigin(0, 1).setImmovable();
+    this.add.image(700, 170, 'background'); 
+    this.ground = this.add.tileSprite(0, height, 50, 100, 'ground').setOrigin(0, 1);
+    this.physics.add.existing(this.ground, true);
+    this.dino = this.physics.add.sprite(0, height - 100, 'dino-idle')
       .setCollideWorldBounds(true)
       .setGravityY(5000)
       .setBodySize(44, 92)
@@ -28,22 +30,30 @@ class PlayScene extends Phaser.Scene {
 
     this.dino.flipX=true;
 
-    this.scoreText = this.add.text(width, 0, "00000", {fill: "#535353", font: '900 35px Courier', resolution: 5})
+    this.scoreText = this.add.text(width, 10, "00000", {fill: "#FFF", font: '900 35px nokiafc22', resolution: 5})
       .setOrigin(1, 0)
       .setAlpha(0);
 
-    this.highScoreText = this.add.text(0, 0, "00000", {fill: "#535353", font: '900 35px Courier', resolution: 5})
+    this.highScoreText = this.add.text(0, 10, "00000", {fill: "#FFF ", font: '900 35px nokiafc22', resolution: 5})
       .setOrigin(1, 0)
       .setAlpha(0);
 
       this.environment = this.add.group();
-      this.environment.addMultiple([
+      /* this.environment.addMultiple([
         this.add.image(width / 2, 170, 'cloud'),
         this.add.image(width - 80, 80, 'cloud'),
         this.add.image((width / 1.3), 100, 'cloud')
-      ]);
+      ]); */
       this.environment.setAlpha(0);
 
+    //start
+    this.startScreen = this.add.container(width / 2, height / 2 - 50).setAlpha(1)
+    this.startText = this.add.image(0, 0, 'logo');
+    this.startScreen.add([
+      this.startText
+    ])
+
+    //game over
     this.gameOverScreen = this.add.container(width / 2, height / 2 - 50).setAlpha(0)
     this.gameOverText = this.add.image(0, 0, 'game-over');
     this.restart = this.add.image(0, 80, 'restart').setInteractive();
@@ -62,6 +72,7 @@ class PlayScene extends Phaser.Scene {
   }
 
   initColliders() {
+    this.physics.add.collider(this.ground, this.dino);
     this.physics.add.collider(this.dino, this.obsticles, () => {
       this.highScoreText.x = this.scoreText.x - this.scoreText.width - 20;
 
@@ -87,7 +98,7 @@ class PlayScene extends Phaser.Scene {
     const { width, height } = this.game.config;
     this.physics.add.overlap(this.startTrigger, this.dino, () => {
       if (this.startTrigger.y === 10) {
-        this.startTrigger.body.reset(0, height);
+        this.startTrigger.body.reset(0, height - 100);
         return;
       }
 
@@ -98,8 +109,9 @@ class PlayScene extends Phaser.Scene {
         loop: true,
         callbackScope: this,
         callback: () => {
+          this.startScreen.setAlpha(0);
           this.dino.setVelocityX(80);
-          this.dino.play('dino-run', 1);
+          this.dino.play('dino-run', true);
 
           if (this.ground.width < width) {
             this.ground.width += 17 * 2;
@@ -119,9 +131,10 @@ class PlayScene extends Phaser.Scene {
   }
 
   initAnims() {
+    console.log(this.anims.generateFrameNumbers('dino'))
     this.anims.create({
       key: 'dino-run',
-      frames: this.anims.generateFrameNumbers('dino', {start: 2, end: 3}),
+      frames: this.anims.generateFrameNumbers('dino', {start: 0, end: 1}),
       frameRate: 10,
       repeat: -1
     })
@@ -196,7 +209,7 @@ class PlayScene extends Phaser.Scene {
       this.dino.setTexture('dino', 0);
     })
 
-    this.input.keyboard.on('keydown-DOWN', () => {
+    /* this.input.keyboard.on('keydown-DOWN', () => {
       if (!this.dino.body.onFloor() || !this.isGameRunning) { return; }
 
       this.dino.body.height = 58;
@@ -208,7 +221,7 @@ class PlayScene extends Phaser.Scene {
 
       this.dino.body.height = 92;
       this.dino.body.offset.y = 0;
-    })
+    }) */
   }
 
   placeObsticle() {
@@ -218,12 +231,12 @@ class PlayScene extends Phaser.Scene {
     let obsticle;
     if (obsticleNum > 6) {
       const enemyHeight = [20, 50];
-      obsticle = this.obsticles.create(this.game.config.width + distance, this.game.config.height - enemyHeight[Math.floor(Math.random() * 2)], `enemy-bird`)
+      obsticle = this.obsticles.create(this.game.config.width + distance, this.game.config.height - enemyHeight[Math.floor(Math.random() * 2)] - 100, `enemy-bird`)
         .setOrigin(0, 1)
         obsticle.play('enemy-dino-fly', 1);
       obsticle.body.height = obsticle.body.height / 1.5;
     } else {
-      obsticle = this.obsticles.create(this.game.config.width + distance, this.game.config.height, `obsticle-${obsticleNum}`)
+      obsticle = this.obsticles.create(this.game.config.width + distance, this.game.config.height - 100, `obsticle-${obsticleNum}`)
         .setOrigin(0, 1);
 
      obsticle.body.offset.y = +10;
@@ -257,11 +270,12 @@ class PlayScene extends Phaser.Scene {
       }
     })
 
-    if (this.dino.body.deltaAbsY() > 0) {
+    if (this.dino.body.deltaAbsY() > 5) {
       this.dino.anims.stop();
       this.dino.setTexture('dino', 0);
+      console.log(this.dino.body.deltaAbsY())
     } else {
-      this.dino.body.height <= 58 ? this.dino.play('dino-down-anim', true) : this.dino.play('dino-run', true);
+      this.dino.play('dino-run', true);
     }
   }
 }

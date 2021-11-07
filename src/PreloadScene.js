@@ -17,7 +17,9 @@ class PreloadScene extends Phaser.Scene {
     this.load.image('dino-hurt', 'assets/dino-hurt.png');
     this.load.image('restart', 'assets/restart.png');
     this.load.image('game-over', 'assets/game-over.png');
+    this.load.svg('logo', 'assets/start.svg');
     this.load.image('cloud', 'assets/cloud.png');
+    this.load.image('background', 'assets/background.png');
 
     this.load.spritesheet('star', 'assets/stars.png', {
       frameWidth: 9, frameHeight: 9
@@ -28,8 +30,8 @@ class PreloadScene extends Phaser.Scene {
     });
 
     this.load.spritesheet('dino', 'assets/dino-run.png', {
-      frameWidth: 88,
-      frameHeight: 94
+      frameWidth: 68,
+      frameHeight: 92
     })
 
     this.load.spritesheet('dino-down', 'assets/dino-down.png', {
@@ -42,8 +44,8 @@ class PreloadScene extends Phaser.Scene {
       frameHeight: 77
     })
 
-    this.load.image('obsticle-1', 'assets/cactuses_small_1.png')
-    this.load.image('obsticle-2', 'assets/cactuses_small_2.png')
+    this.load.image('obsticle-1', 'assets/obstacle_1.png')
+    this.load.image('obsticle-2', 'assets/obstacle_2.png')
     this.load.image('obsticle-3', 'assets/cactuses_small_3.png')
     this.load.image('obsticle-4', 'assets/cactuses_big_1.png')
     this.load.image('obsticle-5', 'assets/cactuses_big_2.png')
