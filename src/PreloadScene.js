@@ -17,7 +17,6 @@ class PreloadScene extends Phaser.Scene {
     this.load.image('dino-hurt', 'assets/dino-hurt.png');
     this.load.image('restart', 'assets/restart.png');
     this.load.image('game-over', 'assets/game-over.png');
-    this.load.svg('logo', 'assets/start.svg');
     this.load.image('cloud', 'assets/cloud.png');
     this.load.image('background', 'assets/background.png');
 
@@ -50,6 +49,7 @@ class PreloadScene extends Phaser.Scene {
     this.load.image('obsticle-4', 'assets/cactuses_big_1.png')
     this.load.image('obsticle-5', 'assets/cactuses_big_2.png')
     this.load.image('obsticle-6', 'assets/cactuses_big_3.png')
+    this.load.image('start', 'assets/start.png');
   }
 
   create() {

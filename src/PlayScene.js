@@ -19,13 +19,14 @@ class PlayScene extends Phaser.Scene {
 
     this.startTrigger = this.physics.add.sprite(0, 110).setOrigin(0, 1).setImmovable();
     this.add.image(700, 170, 'background'); 
-    this.ground = this.add.tileSprite(0, height, 50, 100, 'ground').setOrigin(0, 1);
+    this.ground = this.add.tileSprite(0, height, width , 100, 'ground').setOrigin(0, 1);
     this.physics.add.existing(this.ground, true);
-    this.dino = this.physics.add.sprite(0, height - 100, 'dino-idle')
+    this.dino = this.physics.add.sprite(0, height - 150, 'dino-idle')
       .setCollideWorldBounds(true)
       .setGravityY(5000)
       .setBodySize(44, 92)
       .setDepth(1)
+      .setAlpha(0)
       .setOrigin(0, 1);
 
     this.dino.flipX=true;
@@ -47,10 +48,12 @@ class PlayScene extends Phaser.Scene {
       this.environment.setAlpha(0);
 
     //start
-    this.startScreen = this.add.container(width / 2, height / 2 - 50).setAlpha(1)
-    this.startText = this.add.image(0, 0, 'logo');
+    this.startScreen = this.add.container(width / 2, height / 4 - 50).setAlpha(1)
+    this.startText = this.add.image(0, 0, 'start');
+    this.instruction = this.add.text(-220, 275, "Press SPACE to start", { fill: "#fec062", font: '900 35px nokiafc22', stroke: '#000', strokeThickness: 3 });
+    this.restart1 = this.add.image(0, 80, 'restart').setInteractive();
     this.startScreen.add([
-      this.startText
+      this.startText, this.instruction, this.restart1
     ])
 
     //game over
@@ -110,6 +113,8 @@ class PlayScene extends Phaser.Scene {
         callbackScope: this,
         callback: () => {
           this.startScreen.setAlpha(0);
+          this.dino.setY(height - 150);
+          this.dino.setAlpha(1); 
           this.dino.setVelocityX(80);
           this.dino.play('dino-run', true);
 
@@ -131,11 +136,10 @@ class PlayScene extends Phaser.Scene {
   }
 
   initAnims() {
-    console.log(this.anims.generateFrameNumbers('dino'))
     this.anims.create({
       key: 'dino-run',
       frames: this.anims.generateFrameNumbers('dino', {start: 0, end: 1}),
-      frameRate: 10,
+      frameRate: 5,
       repeat: -1
     })
 
