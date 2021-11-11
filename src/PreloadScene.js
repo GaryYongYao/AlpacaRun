@@ -13,7 +13,10 @@ class PreloadScene extends Phaser.Scene {
     this.load.audio('reach', 'assets/reach.m4a');
 
     this.load.image('ground', 'assets/ground.png');
-    this.load.image('dino-idle', 'assets/dino-idle.png');
+    this.load.image('alpaca-01-idle', 'assets/alpaca-01-idle.png');
+    this.load.image('alpaca-02-idle', 'assets/alpaca-02-idle.png');
+    this.load.image('alpaca-03-idle', 'assets/alpaca-03-idle.png');
+    this.load.image('alpaca-04-idle', 'assets/alpaca-04-idle.png');
     this.load.image('dino-hurt', 'assets/dino-hurt.png');
     this.load.image('restart', 'assets/restart.png');
     this.load.image('game-over', 'assets/game-over.png');
@@ -28,7 +31,7 @@ class PreloadScene extends Phaser.Scene {
       frameWidth: 20, frameHeight: 40
     });
 
-    this.load.spritesheet('dino', 'assets/dino-run.png', {
+    this.load.spritesheet('alpaca-03', 'assets/alpaca-03-run.png', {
       frameWidth: 68,
       frameHeight: 92
     })

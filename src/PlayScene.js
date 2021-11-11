@@ -12,6 +12,7 @@ class PlayScene extends Phaser.Scene {
     this.isGameRunning = false;
     this.respawnTime = 0;
     this.score = 0;
+    this.spriteNumber = '03'
 
     this.jumpSound = this.sound.add('jump', {volume: 0.2});
     this.hitSound = this.sound.add('hit', {volume: 0.2});
@@ -21,15 +22,14 @@ class PlayScene extends Phaser.Scene {
     this.add.image(700, 170, 'background'); 
     this.ground = this.add.tileSprite(0, height, width , 100, 'ground').setOrigin(0, 1);
     this.physics.add.existing(this.ground, true);
-    this.dino = this.physics.add.sprite(0, height - 150, 'dino-idle')
+    this.alpaca = this.physics.add.sprite(0, height - 150, `alpaca-${this.spriteNumber}-idle`)
       .setCollideWorldBounds(true)
       .setGravityY(5000)
       .setBodySize(44, 92)
       .setDepth(1)
-      .setAlpha(0)
       .setOrigin(0, 1);
 
-    this.dino.flipX=true;
+    this.alpaca.flipX=true;
 
     this.scoreText = this.add.text(width, 10, "00000", {fill: "#FFF", font: '900 35px nokiafc22', resolution: 5})
       .setOrigin(1, 0)
@@ -75,8 +75,8 @@ class PlayScene extends Phaser.Scene {
   }
 
   initColliders() {
-    this.physics.add.collider(this.ground, this.dino);
-    this.physics.add.collider(this.dino, this.obsticles, () => {
+    this.physics.add.collider(this.ground, this.alpaca);
+    this.physics.add.collider(this.alpaca, this.obsticles, () => {
       this.highScoreText.x = this.scoreText.x - this.scoreText.width - 20;
 
       const highScore = this.highScoreText.text.substr(this.highScoreText.text.length - 5);
@@ -88,7 +88,7 @@ class PlayScene extends Phaser.Scene {
       this.physics.pause();
       this.isGameRunning = false;
       this.anims.pauseAll();
-      this.dino.setTexture('dino-hurt');
+      this.alpaca.setTexture('dino-hurt');
       this.respawnTime = 0;
       this.gameSpeed = 10;
       this.gameOverScreen.setAlpha(1);
@@ -99,7 +99,7 @@ class PlayScene extends Phaser.Scene {
 
   initStartTrigger() {
     const { width, height } = this.game.config;
-    this.physics.add.overlap(this.startTrigger, this.dino, () => {
+    this.physics.add.overlap(this.startTrigger, this.alpaca, () => {
       if (this.startTrigger.y === 10) {
         this.startTrigger.body.reset(0, height - 100);
         return;
@@ -113,10 +113,10 @@ class PlayScene extends Phaser.Scene {
         callbackScope: this,
         callback: () => {
           this.startScreen.setAlpha(0);
-          this.dino.setY(height - 150);
-          this.dino.setAlpha(1); 
-          this.dino.setVelocityX(80);
-          this.dino.play('dino-run', true);
+          this.alpaca.setY(height - 150);
+          this.alpaca.setAlpha(1); 
+          this.alpaca.setVelocityX(80);
+          this.alpaca.play('alpaca-run', true);
 
           if (this.ground.width < width) {
             this.ground.width += 17 * 2;
@@ -125,7 +125,7 @@ class PlayScene extends Phaser.Scene {
           if (this.ground.width >= 1000) {
             this.ground.width = width;
             this.isGameRunning = true;
-            this.dino.setVelocityX(0);
+            this.alpaca.setVelocityX(0);
             this.scoreText.setAlpha(1);
             this.environment.setAlpha(1);
             startEvent.remove();
@@ -137,8 +137,8 @@ class PlayScene extends Phaser.Scene {
 
   initAnims() {
     this.anims.create({
-      key: 'dino-run',
-      frames: this.anims.generateFrameNumbers('dino', {start: 0, end: 1}),
+      key: 'alpaca-run',
+      frames: this.anims.generateFrameNumbers(`alpaca-${this.spriteNumber}`, {start: 0, end: 1}),
       frameRate: 5,
       repeat: -1
     })
@@ -193,9 +193,9 @@ class PlayScene extends Phaser.Scene {
 
   handleInputs() {
     this.restart.on('pointerdown', () => {
-      this.dino.setVelocityY(0);
-      this.dino.body.height = 92;
-      this.dino.body.offset.y = 0;
+      this.alpaca.setVelocityY(0);
+      this.alpaca.body.height = 92;
+      this.alpaca.body.offset.y = 0;
       this.physics.resume();
       this.obsticles.clear(true, true);
       this.isGameRunning = true;
@@ -204,27 +204,27 @@ class PlayScene extends Phaser.Scene {
     })
 
     this.input.keyboard.on('keydown-SPACE', () => {
-      if (!this.dino.body.onFloor() || this.dino.body.velocity.x > 0) { return; }
+      if (!this.alpaca.body.onFloor() || this.alpaca.body.velocity.x > 0) { return; }
 
       this.jumpSound.play();
-      this.dino.body.height = 92;
-      this.dino.body.offset.y = 0;
-      this.dino.setVelocityY(-1600);
-      this.dino.setTexture('dino', 0);
+      this.alpaca.body.height = 92;
+      this.alpaca.body.offset.y = 0;
+      this.alpaca.setVelocityY(-1600);
+      this.alpaca.setTexture(`alpaca-${this.spriteNumber}`, 0);
     })
 
     /* this.input.keyboard.on('keydown-DOWN', () => {
-      if (!this.dino.body.onFloor() || !this.isGameRunning) { return; }
+      if (!this.alpaca.body.onFloor() || !this.isGameRunning) { return; }
 
-      this.dino.body.height = 58;
-      this.dino.body.offset.y = 34;
+      this.alpaca.body.height = 58;
+      this.alpaca.body.offset.y = 34;
     })
 
     this.input.keyboard.on('keyup-DOWN', () => {
       if ((this.score !== 0 && !this.isGameRunning)) { return; }
 
-      this.dino.body.height = 92;
-      this.dino.body.offset.y = 0;
+      this.alpaca.body.height = 92;
+      this.alpaca.body.offset.y = 0;
     }) */
   }
 
@@ -274,12 +274,11 @@ class PlayScene extends Phaser.Scene {
       }
     })
 
-    if (this.dino.body.deltaAbsY() > 5) {
-      this.dino.anims.stop();
-      this.dino.setTexture('dino', 0);
-      console.log(this.dino.body.deltaAbsY())
+    if (this.alpaca.body.deltaAbsY() > 5) {
+      this.alpaca.anims.stop();
+      this.alpaca.setTexture(`alpaca-${this.spriteNumber}`, 0);
     } else {
-      this.dino.play('dino-run', true);
+      this.alpaca.play('alpaca-run', true);
     }
   }
 }
