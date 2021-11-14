@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import Cookies from 'js-cookie';
 
 class PlayScene extends Phaser.Scene {
 
@@ -27,7 +28,7 @@ class PlayScene extends Phaser.Scene {
       .setCollideWorldBounds(false)
       .setGravityY(5000)
       .setBodySize(44, 92)
-      //.setAlpha(0)
+      .setDepth(1)
       .setOrigin(0, 1);
 
     this.alpaca.flipX=true;
@@ -36,6 +37,7 @@ class PlayScene extends Phaser.Scene {
       .setOrigin(1, 0)
       .setAlpha(0);
 
+    
     this.highScoreText = this.add.text(0, 10, "00000", {fill: "#FFF ", font: '900 35px nokiafc22', resolution: 5})
       .setOrigin(1, 0)
       .setAlpha(0);
@@ -109,6 +111,7 @@ class PlayScene extends Phaser.Scene {
       const newScore = Number(this.scoreText.text) > Number(highScore) ? this.scoreText.text : highScore;
 
       this.highScoreText.setText('HI ' + newScore);
+      Cookies.set('highScore', newScore);
       this.highScoreText.setAlpha(1);
 
       this.physics.pause();
@@ -150,6 +153,14 @@ class PlayScene extends Phaser.Scene {
             this.alpaca.setVelocityX(0);
             this.scoreText.setAlpha(1);
             this.environment.setAlpha(1);
+      
+            const highScore = Cookies.get('highScore');
+            if (highScore) {
+              this.highScoreText.x = this.scoreText.x - this.scoreText.width - 20;
+              this.highScoreText.setText(`HI ${highScore}`);
+              this.highScoreText.setAlpha(1);
+            }
+
             startEvent.remove();
           }
         }
