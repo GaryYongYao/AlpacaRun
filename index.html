@@ -2,17 +2,39 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <title>Alpaca RUNNNNN</title>
+    <link rel="shortcut icon" href="assets/web/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" href="http://example.com/images/apple-touch-icon.png" />
+    <link rel="preload" as="font" href="/assets/font/nokiafc22.ttf" type="font/ttf" />
     <style>
       @font-face {
         font-family: nokiafc22;
-        src: url(/assets/font/nokiafc22.ttf);
+        src: url('./assets/font/nokiafc22.ttf');
       }
       body {
-        padding: 100px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+      #title {
         font-family: nokiafc22;
+        font-size: 64px;
+        color: #fec062;
+        text-align: center;
+        padding: 45px 0;
+      }
+      #game-container {
+        display: flex;
+        justify-content: center;
+        font-family: nokiafc22;
+        width: 100%;
       }
     </style>
   </head>
   <body>
+    <div id="container">
+      <div id="title">ALPACA RUNNNNN</div>
+      <div id="game-container"></div>
+    </div>
   </body>
 </html>

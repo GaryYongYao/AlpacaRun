@@ -12,21 +12,22 @@ class PlayScene extends Phaser.Scene {
     this.isGameRunning = false;
     this.respawnTime = 0;
     this.score = 0;
-    this.spriteNumber = '03'
+    this.spriteNumber = '01'
+    this.noStart  = false
 
     this.jumpSound = this.sound.add('jump', {volume: 0.2});
     this.hitSound = this.sound.add('hit', {volume: 0.2});
     this.reachSound = this.sound.add('reach', {volume: 0.2});
 
-    this.startTrigger = this.physics.add.sprite(0, 110).setOrigin(0, 1).setImmovable();
+    this.startTrigger = this.physics.add.sprite(20, 110).setOrigin(0, 1).setImmovable();
     this.add.image(700, 170, 'background'); 
     this.ground = this.add.tileSprite(0, height, width , 100, 'ground').setOrigin(0, 1);
     this.physics.add.existing(this.ground, true);
-    this.alpaca = this.physics.add.sprite(0, height - 150, `alpaca-${this.spriteNumber}-idle`)
-      .setCollideWorldBounds(true)
+    this.alpaca = this.physics.add.sprite(20, height - 150, `alpaca-${this.spriteNumber}-idle`)
+      .setCollideWorldBounds(false)
       .setGravityY(5000)
       .setBodySize(44, 92)
-      .setDepth(1)
+      //.setAlpha(0)
       .setOrigin(0, 1);
 
     this.alpaca.flipX=true;
@@ -50,22 +51,47 @@ class PlayScene extends Phaser.Scene {
     //start
     this.startScreen = this.add.container(width / 2, height / 4 - 50).setAlpha(1)
     this.startText = this.add.image(0, 0, 'start');
-    this.instruction = this.add.text(-220, 275, "Press SPACE to start", { fill: "#fec062", font: '900 35px nokiafc22', stroke: '#000', strokeThickness: 3 });
-    this.restart1 = this.add.image(0, 80, 'restart').setInteractive();
+    this.instruction = this.add.text(0, 280, "Press SPACE to start", { fill: "#fec062", fontSize: 35, fontFamily: 'nokiafc22' })
+      .setOrigin(0.5, 0);
+    this.settings = this.add.image(0, 80, 'settings').setInteractive();
     this.startScreen.add([
-      this.startText, this.instruction, this.restart1
+      this.startText, this.instruction, this.settings
     ])
+
+    // Select
+    this.selectScreen = this.add.container(width / 2, 0).setDepth(100).setAlpha(0)
+    this.selectBackground = this.add.rectangle(0, 0, width, height, '#000').setOrigin(0.5, 0).setAlpha(0.6)
+    this.selectText = this.add.text(0, 50, "SELECT YOUR ALPACA", { fill: "#fec062", fontSize: 35, fontFamily: 'nokiafc22' })
+      .setOrigin(0.5, 0);
+    this.closeSettings = this.add.image(0, 120, 'close').setInteractive();
+    this.alpaca01 = this.add.image(-300, height - 150, 'alpaca-01-idle')
+      .setFlipX(true)
+      .setAlpha(0.9)
+      .setInteractive();
+    this.alpaca02 = this.add.image(-100, height - 150, 'alpaca-02-idle')
+      .setFlipX(true)
+      .setAlpha(0.9)
+      .setInteractive();
+    this.alpaca03 = this.add.image(100, height - 150, 'alpaca-03-idle')
+      .setFlipX(true)
+      .setAlpha(0.9)
+      .setInteractive();
+    this.alpaca04 = this.add.image(300, height - 150, 'alpaca-04-idle')
+      .setFlipX(true)
+      .setAlpha(0.9)
+      .setInteractive();
+    this.selectScreen.add([ this.selectBackground, this.closeSettings, this.selectText, this.alpaca01, this.alpaca02, this.alpaca03, this.alpaca04 ])
 
     //game over
     this.gameOverScreen = this.add.container(width / 2, height / 2 - 50).setAlpha(0)
     this.gameOverText = this.add.image(0, 0, 'game-over');
-    this.restart = this.add.image(0, 80, 'restart').setInteractive();
-    this.restart2 = this.add.image(0, 160, 'restart').setInteractive();
+    this.restart = this.add.image(-80, 80, 'restart').setInteractive();
+    this.overSettings = this.add.image(80, 80, 'settings').setInteractive();
     this.gameOverScreen.add([
-      this.gameOverText,  this.restart,  this.restart2
+      this.gameOverText,  this.restart, this.overSettings
     ])
 
-    this.obsticles = this.physics.add.group();
+    this.obstacles = this.physics.add.group();
 
     this.initAnims();
     this.initStartTrigger();
@@ -76,7 +102,7 @@ class PlayScene extends Phaser.Scene {
 
   initColliders() {
     this.physics.add.collider(this.ground, this.alpaca);
-    this.physics.add.collider(this.alpaca, this.obsticles, () => {
+    this.physics.add.collider(this.alpaca, this.obstacles, () => {
       this.highScoreText.x = this.scoreText.x - this.scoreText.width - 20;
 
       const highScore = this.highScoreText.text.substr(this.highScoreText.text.length - 5);
@@ -88,7 +114,7 @@ class PlayScene extends Phaser.Scene {
       this.physics.pause();
       this.isGameRunning = false;
       this.anims.pauseAll();
-      this.alpaca.setTexture('dino-hurt');
+      this.alpaca.setTexture(`alpaca-${this.spriteNumber}-hurt`);
       this.respawnTime = 0;
       this.gameSpeed = 10;
       this.gameOverScreen.setAlpha(1);
@@ -113,14 +139,10 @@ class PlayScene extends Phaser.Scene {
         callbackScope: this,
         callback: () => {
           this.startScreen.setAlpha(0);
-          this.alpaca.setY(height - 150);
+          this.alpaca.setY(height - 200);
           this.alpaca.setAlpha(1); 
           this.alpaca.setVelocityX(80);
           this.alpaca.play('alpaca-run', true);
-
-          if (this.ground.width < width) {
-            this.ground.width += 17 * 2;
-          }
 
           if (this.ground.width >= 1000) {
             this.ground.width = width;
@@ -144,15 +166,22 @@ class PlayScene extends Phaser.Scene {
     })
 
     this.anims.create({
-      key: 'dino-down-anim',
-      frames: this.anims.generateFrameNumbers('dino-down', {start: 0, end: 1}),
-      frameRate: 10,
+      key: 'enemy-dino-fly',
+      frames: this.anims.generateFrameNumbers('enemy-bird', {start: 0, end: 3}),
+      frameRate: 6,
       repeat: -1
     })
 
     this.anims.create({
-      key: 'enemy-dino-fly',
-      frames: this.anims.generateFrameNumbers('enemy-bird', {start: 0, end: 1}),
+      key: 'enemy-bear-move',
+      frames: this.anims.generateFrameNumbers('enemy-bear', {start: 0, end: 3}),
+      frameRate: 6,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'enemy-witch-move',
+      frames: this.anims.generateFrameNumbers('enemy-witch', {start: 0, end: 5}),
       frameRate: 6,
       repeat: -1
     })
@@ -197,74 +226,123 @@ class PlayScene extends Phaser.Scene {
       this.alpaca.body.height = 92;
       this.alpaca.body.offset.y = 0;
       this.physics.resume();
-      this.obsticles.clear(true, true);
+      this.obstacles.clear(true, true);
       this.isGameRunning = true;
       this.gameOverScreen.setAlpha(0);
       this.anims.resumeAll();
     })
 
     this.input.keyboard.on('keydown-SPACE', () => {
-      if (!this.alpaca.body.onFloor() || this.alpaca.body.velocity.x > 0) { return; }
+      if (!this.alpaca.body.onFloor() || this.alpaca.body.velocity.x > 0 || this.noStart ) return; 
 
-      this.jumpSound.play();
-      this.alpaca.body.height = 92;
-      this.alpaca.body.offset.y = 0;
-      this.alpaca.setVelocityY(-1600);
-      this.alpaca.setTexture(`alpaca-${this.spriteNumber}`, 0);
+      if (this.gameOverScreen.alpha !== 1) {
+        this.jumpSound.play();
+        this.alpaca.body.height = 92;
+        this.alpaca.body.offset.y = 0;
+        this.alpaca.setVelocityY(-1600);
+        this.alpaca.setTexture(`alpaca-${this.spriteNumber}`, 0);
+      }
     })
 
-    /* this.input.keyboard.on('keydown-DOWN', () => {
-      if (!this.alpaca.body.onFloor() || !this.isGameRunning) { return; }
+    this.settings.on('pointerdown', async () => {
+      this.noStart = true;
+      this.settings.setTexture('settings-press');
+      this.settings.disableInteractive();
+      this.selectScreen.setAlpha(1);
+    })
+    this.settings.on('pointerup', () => this.settings.setTexture('settings'))
+    this.settings.on('pointerout', () => this.settings.setTexture('settings'))
 
-      this.alpaca.body.height = 58;
-      this.alpaca.body.offset.y = 34;
+    this.overSettings.on('pointerdown', async () => {
+      this.noStart = true;
+      this.overSettings.setTexture('settings-press');
+      this.overSettings.disableInteractive();
+      this.selectScreen.setAlpha(1);
+    })
+    this.overSettings.on('pointerup', () => this.overSettings.setTexture('settings'))
+    this.overSettings.on('pointerout', () => this.overSettings.setTexture('settings'))
+
+    const alpaNo = ['01', '02', '03', '04'];
+
+    alpaNo.map(n => {
+      this[`alpaca${n}`].on('pointerdown', async () => {
+        this.spriteNumber = n;
+  
+        this.alpaca.setTexture(`alpaca-${this.spriteNumber}-idle`, 0);
+        await this.anims.remove('alpaca-run')
+        await this.anims.create({
+          key: 'alpaca-run',
+          frames: this.anims.generateFrameNumbers(`alpaca-${this.spriteNumber}`, {start: 0, end: 1}),
+          frameRate: 5,
+          repeat: -1
+        })
+      })
+
+      this[`alpaca${n}`].on('pointerover', () => this[`alpaca${n}`].setAlpha(1))
+
+      this[`alpaca${n}`].on('pointerout', () => this[`alpaca${n}`].setAlpha(0.7))
     })
 
-    this.input.keyboard.on('keyup-DOWN', () => {
-      if ((this.score !== 0 && !this.isGameRunning)) { return; }
-
-      this.alpaca.body.height = 92;
-      this.alpaca.body.offset.y = 0;
-    }) */
+    this.closeSettings.on('pointerdown', async () => {
+      this.noStart = false;
+      this.closeSettings.setTexture('close-press');
+      this.settings.setInteractive();
+      this.overSettings.setInteractive();
+      this.selectScreen.setAlpha(0);
+    })
+    this.closeSettings.on('pointerup', () => this.closeSettings.setTexture('close'))
+    this.closeSettings.on('pointerout', () => this.closeSettings.setTexture('close'))
   }
 
-  placeObsticle() {
-    const obsticleNum = Math.floor(Math.random() * 7) + 1;
+  placeObstacle() {
+    const obstacleNum = Math.floor(Math.random() * 7) + 1;
     const distance = Phaser.Math.Between(600, 900);
 
-    let obsticle;
-    if (obsticleNum > 6) {
+    let obstacle;
+    if (obstacleNum > 6) {
       const enemyHeight = [20, 50];
-      obsticle = this.obsticles.create(this.game.config.width + distance, this.game.config.height - enemyHeight[Math.floor(Math.random() * 2)] - 100, `enemy-bird`)
+      obstacle = this.obstacles.create(this.game.config.width + distance, this.game.config.height - enemyHeight[Math.floor(Math.random() * 2)] - 100, `enemy-bird`)
         .setOrigin(0, 1)
-        obsticle.play('enemy-dino-fly', 1);
-      obsticle.body.height = obsticle.body.height / 1.5;
+        obstacle.play('enemy-dino-fly', 1);
+      obstacle.body.height = obstacle.body.height / 1.5;
+    } else if (obstacleNum === 6) {
+      obstacle = this.obstacles.create(this.game.config.width + distance, this.game.config.height - 100, `enemy-bear`)
+        .setOrigin(0, 1)
+        obstacle.play('enemy-bear-move', 1);
+
+        obstacle.body.offset.y = +10;
+    }  else if (obstacleNum === 5) {
+      obstacle = this.obstacles.create(this.game.config.width + distance, this.game.config.height - 100, `enemy-witch`)
+        .setOrigin(0, 1)
+        obstacle.play('enemy-witch-move', 1);
+
+        obstacle.body.offset.y = +10;
     } else {
-      obsticle = this.obsticles.create(this.game.config.width + distance, this.game.config.height - 100, `obsticle-${obsticleNum}`)
+      obstacle = this.obstacles.create(this.game.config.width + distance, this.game.config.height - 100, `obstacle-${obstacleNum}`)
         .setOrigin(0, 1);
 
-     obsticle.body.offset.y = +10;
+     obstacle.body.offset.y = +10;
     }
 
-    obsticle.setImmovable();
+    obstacle.setImmovable();
   }
 
   update(time, delta) {
     if (!this.isGameRunning) { return; }
 
     this.ground.tilePositionX += this.gameSpeed;
-    Phaser.Actions.IncX(this.obsticles.getChildren(), -this.gameSpeed);
+    Phaser.Actions.IncX(this.obstacles.getChildren(), -this.gameSpeed);
     Phaser.Actions.IncX(this.environment.getChildren(), - 0.5);
 
     this.respawnTime += delta * this.gameSpeed * 0.08;
     if (this.respawnTime >= 1500) {
-      this.placeObsticle();
+      this.placeObstacle();
       this.respawnTime = 0;
     }
 
-    this.obsticles.getChildren().forEach(obsticle => {
-      if (obsticle.getBounds().right < 0) {
-        this.obsticles.killAndHide(obsticle);
+    this.obstacles.getChildren().forEach(obstacle => {
+      if (obstacle.getBounds().right < 0) {
+        this.obstacles.killAndHide(obstacle);
       }
     })
 

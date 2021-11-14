@@ -8,7 +8,7 @@
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack-dev-server --config webpack.common.js --watch"
   },
-  "author": "",
+  "author": "Spextre",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.24.0",
