@@ -1,8 +1,12 @@
 
 import Phaser from 'phaser';
 
+import React from 'react'
+import ReactDOM from 'react-dom'
+
 import PlayScene from './PlayScene';
 import PreloadScene from './PreloadScene';
+import ReactComponent from './ReactComponent';
 
 const config = {
   type: Phaser.AUTO,
@@ -21,3 +25,8 @@ const config = {
 };
 
 new Phaser.Game(config);
+
+ReactDOM.render(
+  <ReactComponent />,
+  document.getElementById('board-container')
+)

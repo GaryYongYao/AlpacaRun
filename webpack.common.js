@@ -31,8 +31,29 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-react']
+          }
         }
-      }
+      },
+      {
+        test: /\.css$/,
+        use:  [
+          {
+            loader: require.resolve('style-loader')
+          },
+          {
+            loader: require.resolve('css-loader')
+          }
+        ]
+      },
+      {
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        loader: require.resolve('url-loader'),
+        options: {
+          name: 'static/media/[name].[hash:8].[ext]',
+        },
+      },
     ]
   },
   devServer: {

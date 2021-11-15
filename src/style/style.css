@@ -1,0 +1,42 @@
+body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  background: url(https://alpacadabraz.io/assets/hero_bg.png);
+  background-size: cover;
+  background-position: center;
+}
+
+#title {
+  font-family: nokiafc22;
+  font-size: 64px;
+  color: #fec062;
+  text-align: center;
+  padding: 45px 0;
+}
+
+#game-container {
+  display: flex;
+  justify-content: center;
+  font-family: nokiafc22;
+  width: 100%;
+}
+
+#board-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  margin: 0 50px;
+}
+
+@media only screen and (max-width: 1200px) {
+  body {
+    padding: 0 100px;
+  }
+}

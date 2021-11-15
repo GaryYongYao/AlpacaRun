@@ -9,7 +9,7 @@ class PlayScene extends Phaser.Scene {
 
   create() {
     const { height, width } = this.game.config;
-    this.gameSpeed = 10;
+    this.gameSpeed = 18;
     this.isGameRunning = false;
     this.respawnTime = 0;
     this.score = 0;
@@ -29,6 +29,7 @@ class PlayScene extends Phaser.Scene {
       .setGravityY(5000)
       .setBodySize(44, 92)
       .setDepth(1)
+      .setInteractive()
       .setOrigin(0, 1);
 
     this.alpaca.flipX=true;
@@ -53,44 +54,58 @@ class PlayScene extends Phaser.Scene {
     //start
     this.startScreen = this.add.container(width / 2, height / 4 - 50).setAlpha(1)
     this.startText = this.add.image(0, 0, 'start');
-    this.instruction = this.add.text(0, 280, "Press SPACE to start", { fill: "#fec062", fontSize: 35, fontFamily: 'nokiafc22' })
+    this.instruction = this.add.text(0, 220, "Press SPACE / ALPACA to start", { fill: "#fec062", fontSize: 35, fontFamily: 'nokiafc22' })
+      .setOrigin(0.5, 0);
+    this.instruction2 = this.add.text(4, 224, "Press SPACE / ALPACA to start", { fill: "#000", fontSize: 35, fontFamily: 'nokiafc22' })
       .setOrigin(0.5, 0);
     this.settings = this.add.image(0, 80, 'settings').setInteractive();
+    this.settingsText = this.add.text(0, 105, "Pick Another ALPACA", { fill: "#fec062", fontSize: 20, fontFamily: 'nokiafc22' })
+      .setOrigin(0.5, 0).setAlpha(0);
+    this.settingsText2 = this.add.text(2, 108, "Pick Another ALPACA", { fill: "#000", fontSize: 20, fontFamily: 'nokiafc22' })
+      .setOrigin(0.5, 0).setAlpha(0);
     this.startScreen.add([
-      this.startText, this.instruction, this.settings
+      this.startText, this.instruction2, this.instruction, this.settings, this.settingsText2, this.settingsText
     ])
 
     // Select
     this.selectScreen = this.add.container(width / 2, 0).setDepth(100).setAlpha(0)
-    this.selectBackground = this.add.rectangle(0, 0, width, height, '#000').setOrigin(0.5, 0).setAlpha(0.6)
+    this.selectBackground = this.add.image(0, 0, 'background').setOrigin(0.5, 0)
     this.selectText = this.add.text(0, 50, "SELECT YOUR ALPACA", { fill: "#fec062", fontSize: 35, fontFamily: 'nokiafc22' })
       .setOrigin(0.5, 0);
-    this.closeSettings = this.add.image(0, 120, 'close').setInteractive();
-    this.alpaca01 = this.add.image(-300, height - 150, 'alpaca-01-idle')
+    this.alpaca01 = this.add.image(-300, height - 100, 'alpaca-01-idle')
       .setFlipX(true)
-      .setAlpha(0.9)
+      .setAlpha(0.7)
       .setInteractive();
-    this.alpaca02 = this.add.image(-100, height - 150, 'alpaca-02-idle')
+    this.alpaca02 = this.add.image(-100, height - 100, 'alpaca-02-idle')
       .setFlipX(true)
-      .setAlpha(0.9)
+      .setAlpha(0.7)
       .setInteractive();
-    this.alpaca03 = this.add.image(100, height - 150, 'alpaca-03-idle')
+    this.alpaca03 = this.add.image(100, height - 100, 'alpaca-03-idle')
       .setFlipX(true)
-      .setAlpha(0.9)
+      .setAlpha(0.7)
       .setInteractive();
-    this.alpaca04 = this.add.image(300, height - 150, 'alpaca-04-idle')
+    this.alpaca04 = this.add.image(300, height - 100, 'alpaca-04-idle')
       .setFlipX(true)
-      .setAlpha(0.9)
+      .setAlpha(0.7)
       .setInteractive();
-    this.selectScreen.add([ this.selectBackground, this.closeSettings, this.selectText, this.alpaca01, this.alpaca02, this.alpaca03, this.alpaca04 ])
+    this.selectScreen.add([ this.selectBackground, this.selectText, this.alpaca01, this.alpaca02, this.alpaca03, this.alpaca04 ])
 
     //game over
-    this.gameOverScreen = this.add.container(width / 2, height / 2 - 50).setAlpha(0)
-    this.gameOverText = this.add.image(0, 0, 'game-over');
-    this.restart = this.add.image(-80, 80, 'restart').setInteractive();
-    this.overSettings = this.add.image(80, 80, 'settings').setInteractive();
+    this.gameOverScreen = this.add.container(width / 2, 0).setAlpha(0).setDepth(99)
+    this.gameOverText = this.add.image(0, 100, 'game-over');
+    this.restart = this.add.image(-80, 200, 'restart').setInteractive();
+    this.restartText = this.add.text(-80, 225, "Try Again?", { fill: "#fec062", fontSize: 20, fontFamily: 'nokiafc22' })
+      .setOrigin(0.5, 0).setAlpha(0);
+    this.restartText2 = this.add.text(-78, 228, "Try Again?", { fill: "#000", fontSize: 20, fontFamily: 'nokiafc22' })
+      .setOrigin(0.5, 0).setAlpha(0);
+    this.overSettings = this.add.image(80, 200, 'settings').setInteractive();
+    this.overSettingsText = this.add.text(80, 225, "Pick Another ALPACA", { fill: "#fec062", fontSize: 20, fontFamily: 'nokiafc22' })
+      .setOrigin(0.5, 0).setAlpha(0);
+    this.overSettingsText2 = this.add.text(82, 228, "Pick Another ALPACA", { fill: "#000", fontSize: 20, fontFamily: 'nokiafc22' })
+      .setOrigin(0.5, 0).setAlpha(0);
+    this.gameOverBackground = this.add.rectangle(0, 0, width, height, '#000').setOrigin(0.5, 0).setAlpha(0.6)
     this.gameOverScreen.add([
-      this.gameOverText,  this.restart, this.overSettings
+      this.gameOverBackground, this.gameOverText, this.overSettingsText2, this.restartText2, this.restartText, this.overSettingsText, this.restart, this.overSettings
     ])
 
     this.obstacles = this.physics.add.group();
@@ -119,7 +134,7 @@ class PlayScene extends Phaser.Scene {
       this.anims.pauseAll();
       this.alpaca.setTexture(`alpaca-${this.spriteNumber}-hurt`);
       this.respawnTime = 0;
-      this.gameSpeed = 10;
+      this.gameSpeed = 18;
       this.gameOverScreen.setAlpha(1);
       this.score = 0;
       this.hitSound.play();
@@ -242,8 +257,28 @@ class PlayScene extends Phaser.Scene {
       this.gameOverScreen.setAlpha(0);
       this.anims.resumeAll();
     })
+    this.restart.on('pointerover', () => {
+      this.restartText.setAlpha(1);
+      this.restartText2.setAlpha(1);
+    })
+    this.restart.on('pointerout', () => {
+      this.restartText.setAlpha(0);
+      this.restartText2.setAlpha(0);
+    })
 
     this.input.keyboard.on('keydown-SPACE', () => {
+      if (!this.alpaca.body.onFloor() || this.alpaca.body.velocity.x > 0 || this.noStart ) return; 
+
+      if (this.gameOverScreen.alpha !== 1) {
+        this.jumpSound.play();
+        this.alpaca.body.height = 92;
+        this.alpaca.body.offset.y = 0;
+        this.alpaca.setVelocityY(-1600);
+        this.alpaca.setTexture(`alpaca-${this.spriteNumber}`, 0);
+      }
+    })
+
+    this.alpaca.on('pointerdown', () => {
       if (!this.alpaca.body.onFloor() || this.alpaca.body.velocity.x > 0 || this.noStart ) return; 
 
       if (this.gameOverScreen.alpha !== 1) {
@@ -261,8 +296,16 @@ class PlayScene extends Phaser.Scene {
       this.settings.disableInteractive();
       this.selectScreen.setAlpha(1);
     })
+    this.settings.on('pointerover', () => {
+      this.settingsText.setAlpha(1);
+      this.settingsText2.setAlpha(1);
+    })
     this.settings.on('pointerup', () => this.settings.setTexture('settings'))
-    this.settings.on('pointerout', () => this.settings.setTexture('settings'))
+    this.settings.on('pointerout', () => {
+      this.settings.setTexture('settings');
+      this.settingsText.setAlpha(0);
+      this.settingsText2.setAlpha(0);
+    })
 
     this.overSettings.on('pointerdown', async () => {
       this.noStart = true;
@@ -270,8 +313,16 @@ class PlayScene extends Phaser.Scene {
       this.overSettings.disableInteractive();
       this.selectScreen.setAlpha(1);
     })
+    this.overSettings.on('pointerover', () => {
+      this.overSettingsText.setAlpha(1);
+      this.overSettingsText2.setAlpha(1);
+    })
     this.overSettings.on('pointerup', () => this.overSettings.setTexture('settings'))
-    this.overSettings.on('pointerout', () => this.overSettings.setTexture('settings'))
+    this.overSettings.on('pointerout', () => {
+      this.overSettings.setTexture('settings');
+      this.overSettingsText.setAlpha(0);
+      this.overSettingsText2.setAlpha(0);
+    })
 
     const alpaNo = ['01', '02', '03', '04'];
 
@@ -287,22 +338,16 @@ class PlayScene extends Phaser.Scene {
           frameRate: 5,
           repeat: -1
         })
+        this.noStart = false;
+        this.settings.setInteractive();
+        this.overSettings.setInteractive();
+        this.selectScreen.setAlpha(0);
       })
 
       this[`alpaca${n}`].on('pointerover', () => this[`alpaca${n}`].setAlpha(1))
 
       this[`alpaca${n}`].on('pointerout', () => this[`alpaca${n}`].setAlpha(0.7))
     })
-
-    this.closeSettings.on('pointerdown', async () => {
-      this.noStart = false;
-      this.closeSettings.setTexture('close-press');
-      this.settings.setInteractive();
-      this.overSettings.setInteractive();
-      this.selectScreen.setAlpha(0);
-    })
-    this.closeSettings.on('pointerup', () => this.closeSettings.setTexture('close'))
-    this.closeSettings.on('pointerout', () => this.closeSettings.setTexture('close'))
   }
 
   placeObstacle() {
