@@ -21,8 +21,8 @@ class PlayScene extends Phaser.Scene {
     this.reachSound = this.sound.add('reach', {volume: 0.2});
 
     this.startTrigger = this.physics.add.sprite(20, 110).setOrigin(0, 1).setImmovable();
-    this.add.image(700, 170, 'background'); 
-    this.ground = this.add.tileSprite(0, height, width , 100, 'ground').setOrigin(0, 1);
+    this.goodWeather = this.add.image(700, 170, 'background').setInteractive(); 
+    this.ground = this.add.tileSprite(0, height, width , 100, 'ground').setOrigin(0, 1).setInteractive();
     this.physics.add.existing(this.ground, true);
     this.alpaca = this.physics.add.sprite(20, height - 150, `alpaca-${this.spriteNumber}-idle`)
       .setCollideWorldBounds(false)
@@ -52,7 +52,7 @@ class PlayScene extends Phaser.Scene {
       this.environment.setAlpha(0);
 
     //start
-    this.startScreen = this.add.container(width / 2, height / 4 - 50).setAlpha(1)
+    this.startScreen = this.add.container(width / 2, height / 4 - 50).setAlpha(1);
     this.startText = this.add.image(0, 0, 'start');
     this.instruction = this.add.text(0, 220, "Press SPACE / ALPACA to start", { fill: "#fec062", fontSize: 35, fontFamily: 'nokiafc22' })
       .setOrigin(0.5, 0);
@@ -266,7 +266,7 @@ class PlayScene extends Phaser.Scene {
       this.restartText2.setAlpha(0);
     })
 
-    this.input.keyboard.on('keydown-SPACE', () => {
+    const jump = () => {
       if (!this.alpaca.body.onFloor() || this.alpaca.body.velocity.x > 0 || this.noStart ) return; 
 
       if (this.gameOverScreen.alpha !== 1) {
@@ -276,19 +276,12 @@ class PlayScene extends Phaser.Scene {
         this.alpaca.setVelocityY(-1600);
         this.alpaca.setTexture(`alpaca-${this.spriteNumber}`, 0);
       }
-    })
+    }
 
-    this.alpaca.on('pointerdown', () => {
-      if (!this.alpaca.body.onFloor() || this.alpaca.body.velocity.x > 0 || this.noStart ) return; 
-
-      if (this.gameOverScreen.alpha !== 1) {
-        this.jumpSound.play();
-        this.alpaca.body.height = 92;
-        this.alpaca.body.offset.y = 0;
-        this.alpaca.setVelocityY(-1600);
-        this.alpaca.setTexture(`alpaca-${this.spriteNumber}`, 0);
-      }
-    })
+    this.input.keyboard.on('keydown-SPACE', jump)
+    this.alpaca.on('pointerdown', jump)
+    this.ground.on('pointerdown', jump)
+    this.goodWeather.on('pointerdown', jump)
 
     this.settings.on('pointerdown', async () => {
       this.noStart = true;
