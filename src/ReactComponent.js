@@ -8,27 +8,32 @@ import './style/style.css';
 const Component = () => {
   return (
     <>
-      <a
-        id="opensea-link"
-        href="https://opensea.io/collection/alpacadabraz"
-        target="_blank"
-      >
-        <img className="logo" alt="OPENSEA" src={Opensea} />
-      </a>
-      <a
-        id="discord-link"
-        href="http://discord.gg/alpacadabraz"
-        target="_blank"
-      >
-        <img className="logo" alt="DISCORD" src={Discord} />
-      </a>
-      <a
-        id="twitter-link"
-        href="https://twitter.com/alpacadabraz"
-        target="_blank"
-      >
-        <img className="logo" alt="TWITTER" src={Twitter} />
-      </a>
+      <div id="social-text">
+        FIND US ON
+      </div>
+      <div id="socials">
+        <a
+          id="opensea-link"
+          href="https://opensea.io/collection/alpacadabraz"
+          target="_blank"
+        >
+          <img className="logo" alt="OPENSEA" src={Opensea} />
+        </a>
+        <a
+          id="discord-link"
+          href="http://discord.gg/alpacadabraz"
+          target="_blank"
+        >
+          <img className="logo" alt="DISCORD" src={Discord} />
+        </a>
+        <a
+          id="twitter-link"
+          href="https://twitter.com/alpacadabraz"
+          target="_blank"
+        >
+          <img className="logo" alt="TWITTER" src={Twitter} />
+        </a>
+      </div>
     </>
   )
 }

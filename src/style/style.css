@@ -2,9 +2,24 @@ body {
   width: 100%;
   min-height: 100vh;
   margin: 0;
-  background: url(https://alpacadabraz.io/assets/hero_bg.png);
+  font-family: nokiafc22;
+  background: url(../images/bg.png);
   background-size: cover;
   background-position: center;
+}
+
+#container {
+  width: 100%;
+  min-height: 100vh;
+}
+
+#bg-shadow {
+  position: absolute;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #000;
+  opacity: 0.3;
+  z-index: -1;
 }
 
 #title {
@@ -24,9 +39,22 @@ body {
 
 #board-container {
   width: 100%;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#social-text {
+  font-size: 28px;
+  color: #fec062;
+  padding: 20px 0;
+}
+
+#socials {
+  width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 50px;
 }
 
 .logo {
