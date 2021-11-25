@@ -2,8 +2,9 @@
 import Phaser from 'phaser';
 
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { render } from 'react-dom'
 
+import TitleComponent from './TitleComponent';
 import PlayScene from './PlayScene';
 import PreloadScene from './PreloadScene';
 import ReactComponent from './ReactComponent';
@@ -26,7 +27,12 @@ const config = {
 
 new Phaser.Game(config);
 
-ReactDOM.render(
+render(
+  <TitleComponent />,
+  document.getElementById('title-container')
+)
+
+render(
   <ReactComponent />,
   document.getElementById('board-container')
 )

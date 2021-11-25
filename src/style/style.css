@@ -24,10 +24,12 @@ body {
 
 #title {
   font-family: nokiafc22;
-  font-size: 64px;
+  font-size: 48px;
   color: #fec062;
   text-align: center;
-  padding: 45px 0;
+  padding: 15px 0;
+  margin-bottom: 30px;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 #game-container {
