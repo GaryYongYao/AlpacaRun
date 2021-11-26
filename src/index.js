@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 
 import React from 'react'
 import { render } from 'react-dom'
+import { DAppProvider } from "@usedapp/core";
 
 import TitleComponent from './TitleComponent';
 import PlayScene from './PlayScene';
@@ -28,7 +29,9 @@ const config = {
 new Phaser.Game(config);
 
 render(
-  <TitleComponent />,
+  <DAppProvider config={{}}>
+    <TitleComponent />
+  </DAppProvider>,
   document.getElementById('title-container')
 )
 

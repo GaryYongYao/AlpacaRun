@@ -22,14 +22,39 @@ body {
   z-index: -1;
 }
 
+#title-bar {
+  margin-bottom: 30px;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 #title {
-  font-family: nokiafc22;
   font-size: 48px;
   color: #fec062;
   text-align: center;
-  padding: 15px 0;
-  margin-bottom: 30px;
-  background-color: rgba(0, 0, 0, 0.5);
+  padding: 15px 25px;
+}
+
+#account {
+  font-size: 21px;
+  text-transform: uppercase;
+  font-family: VCR_OSD_Mono;
+  padding: 38px 25px;
+  background: #fff;
+  max-width: 150px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+#loginBTN {
+  font-size: 21px;
+  text-transform: uppercase;
+  font-family: VCR_OSD_Mono;
+  padding: 38px 25px;
+  background: #fff;
+  cursor: pointer;
 }
 
 #game-container {

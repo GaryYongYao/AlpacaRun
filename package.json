@@ -11,6 +11,8 @@
   "author": "Spextre",
   "license": "ISC",
   "dependencies": {
+    "@ethersproject/units": "^5.5.0",
+    "@usedapp/core": "^0.6.3",
     "axios": "^0.24.0",
     "crypto-js": "^4.1.1",
     "js-cookie": "^3.0.1",
