@@ -4,7 +4,9 @@ import Phaser from 'phaser';
 import React from 'react'
 import { render } from 'react-dom'
 import { DAppProvider } from "@usedapp/core";
+import { Web3ReactProvider } from '@web3-react/core';
 
+import { getLibrary } from './utils'
 import TitleComponent from './TitleComponent';
 import PlayScene from './PlayScene';
 import PreloadScene from './PreloadScene';
@@ -29,9 +31,11 @@ const config = {
 new Phaser.Game(config);
 
 render(
-  <DAppProvider config={{}}>
-    <TitleComponent />
-  </DAppProvider>,
+  <Web3ReactProvider getLibrary={getLibrary}>
+    <DAppProvider config={{}}>
+      <TitleComponent />
+    </DAppProvider>
+  </Web3ReactProvider>,
   document.getElementById('title-container')
 )
 

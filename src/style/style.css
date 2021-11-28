@@ -43,9 +43,6 @@ body {
   font-family: VCR_OSD_Mono;
   padding: 38px 25px;
   background: #fff;
-  max-width: 150px;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
 }
 
 #loginBTN {
@@ -94,4 +91,49 @@ body {
   body {
     padding: 0 100px;
   }
+}
+
+/* leaderboard */
+#leaderboard {
+  border-radius: 1rem 1rem 0 0;
+  background-color: #fff;
+  width: 30%;
+  min-width: 400px;
+  padding: 1rem 0;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+}
+
+#leaderboard-title {
+  text-align: center;
+  padding: 0 0.7rem;
+}
+
+#leaderboard-content {
+  max-height: 684px;
+  height: 100%;
+  transition: max-height .4s;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.rank {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0.7rem;
+  margin-bottom: 0;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid #eee;
+}
+
+.rank > img {
+  height: 60px;
+  width: 60px;
+  margin-right: 20px;
+}
+
+.score {
+  margin-left: auto;
 }

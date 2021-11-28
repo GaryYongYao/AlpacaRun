@@ -1,5 +1,8 @@
 import Phaser from 'phaser';
 import Cookies from 'js-cookie';
+import { getAlpacaIDs, graphRequest } from './utils';
+import { encrypt } from './utils/crypto';
+import { mutationUpdateRunScore } from './common';
 
 class PlayScene extends Phaser.Scene {
 
@@ -9,6 +12,7 @@ class PlayScene extends Phaser.Scene {
 
   create() {
     const { height, width } = this.game.config;
+    this.ownedAlpaca = getAlpacaIDs();
     this.gameSpeed = 18;
     this.isGameRunning = false;
     this.respawnTime = 0;
@@ -123,6 +127,16 @@ class PlayScene extends Phaser.Scene {
       this.highScoreText.x = this.scoreText.x - this.scoreText.width - 20;
 
       const highScore = this.highScoreText.text.substr(this.highScoreText.text.length - 5);
+      
+      const code = encrypt({ tokenId: this.ownedAlpaca[0], score: Number(this.scoreText.text) })
+
+      graphRequest(mutationUpdateRunScore, { code })
+        .then(res => {
+          const { updateRunScore } = res.data
+          console.log(updateRunScore)
+        })
+        .catch(err =>  console.log(err))
+      
       const newScore = Number(this.scoreText.text) > Number(highScore) ? this.scoreText.text : highScore;
 
       this.highScoreText.setText('HI ' + newScore);
