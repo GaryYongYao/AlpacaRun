@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Discord from './images/discord.png';
 import Opensea from './images/opensea.png';
 import Twitter from './images/twitter.png';
+import LeaderboardIcon from './images/leaderboard.png';
+import Arrow from './images/arrow.png';
 import { queryGetRunLeaderboards } from './common'
 import { graphRequest } from './utils'
 
@@ -51,10 +53,21 @@ const Component = () => {
         </a>
       </div>
       <div id="leaderboard">
-        <div id="leaderboard-title">Leaderboard</div>
+        <div
+          id="leaderboard-title"
+          onClick={() => {
+            const className = 'open'
+            var element = document.getElementById("leaderboard");
+            element.classList.contains(className) ? element.classList.remove(className) : element.classList.add(className)
+          }}
+        >
+          <img id="leaderboardIcon" src={LeaderboardIcon} />
+          <div>Leaderboard</div>
+          <img id="arrow" src={Arrow} />
+        </div>
         <div id="leaderboard-content">
           {list.map(({ tokenId, totalScore, image }) => (
-            <div className="rank">
+            <div key={tokenId} className="rank">
               <img src={image} />
               <div>#{tokenId}</div>
               <div className="score">{totalScore}</div>

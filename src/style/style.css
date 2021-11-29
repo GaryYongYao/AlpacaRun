@@ -100,7 +100,6 @@ body {
   width: 30%;
   min-width: 400px;
   padding: 1rem 0;
-  cursor: pointer;
   position: absolute;
   bottom: 0;
 }
@@ -108,14 +107,42 @@ body {
 #leaderboard-title {
   text-align: center;
   padding: 0 0.7rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#leaderboard-title #leaderboardIcon {
+  width: 30px;
+  margin-right: auto;
+}
+
+#leaderboard-title #arrow {
+  width: 30px;
+  margin-left: auto;
+  transition: all .4s;
+  transform: rotate(-180deg);
 }
 
 #leaderboard-content {
-  max-height: 684px;
+  max-height: 0;
   height: 100%;
   transition: max-height .4s;
   overflow: hidden;
   overflow-y: auto;
+}
+
+.open #leaderboard-title #arrow {
+  transform: rotate(0deg);
+}
+
+.open #leaderboard-title #arrow {
+  transform: rotate(0deg);
+}
+
+.open #leaderboard-content {
+  max-height: 250px;
 }
 
 .rank {
