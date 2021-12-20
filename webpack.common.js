@@ -63,7 +63,7 @@ module.exports = {
     port: 8080,
   },
   plugins: [
-    new Dotenv(),
+    new Dotenv({ systemvars: true }),
     new webpack.DefinePlugin({
       'CANVAS_RENDERER': JSON.stringify(true),
       'WEBGL_RENDERER': JSON.stringify(true)
