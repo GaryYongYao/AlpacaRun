@@ -37,7 +37,7 @@ export const request = async (url, type = 'GET', data = null) => {
 
 export const graphRequest = async (gql = null, params) => {
   try {
-    const url = process.env.PUBLIC_API
+    const url = process.env.REACT_APP_PUBLIC_API
     const perms = {
       url,
       method: 'post',
