@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Discord from './images/discord.png';
-import Opensea from './images/opensea.png';
-import Twitter from './images/twitter.png';
-import LeaderboardIcon from './images/leaderboard.png';
-import Arrow from './images/arrow.png';
-import { queryGetRunLeaderboards } from './common'
-import { graphRequest } from './utils'
+import Discord from '../images/discord.png';
+import Opensea from '../images/opensea.png';
+import Twitter from '../images/twitter.png';
+import LeaderboardIcon from '../images/leaderboard.png';
+import Arrow from '../images/arrow.png'
+import { graphRequest } from '../utils'
+import { queryGetRunLeaderboards } from '../utils/common'
 
-import './style/style.css';
+import '../style/style.css';
 
 const Component = () => {
   const [list, setList] = useState([])
@@ -22,7 +22,7 @@ const Component = () => {
   }
 
   useEffect(() => getLeaderboard(), [])
-  useEffect(() => setTimeout(getLeaderboard, 30000), [list])
+  useEffect(() => setTimeout(getLeaderboard, 15000), [list])
 
   return (
     <>

@@ -7,10 +7,10 @@ import { DAppProvider } from "@usedapp/core";
 import { Web3ReactProvider } from '@web3-react/core';
 
 import { getLibrary } from './utils'
-import TitleComponent from './TitleComponent';
+import TitleComponent from './react/TitleComponent';
+import ReactComponent from './react/ReactComponent';
 import PlayScene from './PlayScene';
 import PreloadScene from './PreloadScene';
-import ReactComponent from './ReactComponent';
 
 const config = {
   type: Phaser.AUTO,

@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useEthers } from "@usedapp/core";
 import Cookies from 'js-cookie';
 
-import { request } from './utils';
-import { OPENSEA_API, OPENSEA_PARAMS, ALPACA_CONTRACT_ADD } from './common';
+import { request } from '../utils';
+import { OPENSEA_API, OPENSEA_PARAMS, ALPACA_CONTRACT_ADD } from '../utils/common';
 
-import './style/style.css';
+import '../style/style.css';
 
 const Component = () => {
   const {activateBrowserWallet, account } = useEthers();
@@ -15,9 +15,9 @@ const Component = () => {
   }
 
   const getAlpaca = async () => {
-    const data = await request(`${OPENSEA_API}${OPENSEA_PARAMS}&asset_contract_address=${ALPACA_CONTRACT_ADD}&owner=${account}`);
+    const assets = await request(`${OPENSEA_API}${OPENSEA_PARAMS}&asset_contract_address=${ALPACA_CONTRACT_ADD}&owner=${account}`);
 
-    const alpacaList = data.map(({ token_id }) => token_id)
+    const alpacaList = assets.map(({ token_id, image_url }) => ({ token_id, image_url }))
     if (Cookies.get('alpacas') !== JSON.stringify(alpacaList)) {
       Cookies.set('alpacas', JSON.stringify(alpacaList));
       location.reload();

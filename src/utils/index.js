@@ -37,7 +37,7 @@ export const request = async (url, type = 'GET', data = null) => {
 
 export const graphRequest = async (gql = null, params) => {
   try {
-    const url = 'https://alpaca-games-dev.herokuapp.com/'
+    const url = process.env.PUBLIC_API
     const perms = {
       url,
       method: 'post',
