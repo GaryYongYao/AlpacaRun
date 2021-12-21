@@ -16,7 +16,7 @@ class PlayScene extends Phaser.Scene {
     this.isGameRunning = false;
     this.respawnTime = 0;
     this.score = 0;
-    this.spriteNumber = '01'
+    this.spriteNumber = this.ownedAlpaca.length > 0 ? this.ownedAlpaca[0].token_id : '01'
     this.noStart  = false
 
     this.jumpSound = this.sound.add('jump', {volume: 0.2});
@@ -66,7 +66,7 @@ class PlayScene extends Phaser.Scene {
       this.alpaca.anims.stop();
       this.alpaca.setTexture(`alpaca-${this.spriteNumber}`, 0);
     } else {
-      this.alpaca.play('alpaca-run', true);
+      // this.alpaca.play('alpaca-run', true);
     }
   }
 }

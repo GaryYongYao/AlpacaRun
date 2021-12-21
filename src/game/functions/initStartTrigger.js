@@ -2,11 +2,13 @@ import Cookies from 'js-cookie';
 
 function initStartTrigger(runGame) {
   const { width, height } = runGame.game.config;
+  console.log(runGame.startTrigger.y)
   runGame.physics.add.overlap(runGame.startTrigger, runGame.alpaca, () => {
     if (runGame.startTrigger.y === 10) {
       runGame.startTrigger.body.reset(0, height - 100);
       return;
     }
+    console.log('lol')
 
     runGame.startTrigger.disableBody(true, true);
 
@@ -15,11 +17,12 @@ function initStartTrigger(runGame) {
       loop: true,
       callbackScope: runGame,
       callback: () => {
+        console.log('start')
         runGame.startScreen.setAlpha(0);
         runGame.alpaca.setY(height - 200);
         runGame.alpaca.setAlpha(1); 
         runGame.alpaca.setVelocityX(80);
-        runGame.alpaca.play('alpaca-run', true);
+        // runGame.alpaca.play('alpaca-run', true);
 
         if (runGame.ground.width >= 1000) {
           runGame.ground.width = width;

@@ -11,7 +11,7 @@ function initColliders(runGame) {
     const highScore = runGame.highScoreText.text.substr(runGame.highScoreText.text.length - 5);
 
     if (runGame.ownedAlpaca && runGame.ownedAlpaca.length > 0) {
-      const code = encrypt({ tokenId: runGame.ownedAlpaca[0].token_id, score: Number(runGame.scoreText.text) })
+      const code = encrypt({ tokenId: runGame.spriteNumber, score: Number(runGame.scoreText.text) })
 
       graphRequest(mutationUpdateRunScore, { code })
         .then(res => {

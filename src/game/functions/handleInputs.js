@@ -1,8 +1,13 @@
+import { map } from 'lodash';
+
 function handleInputs(runGame) {
+  const { height } = runGame.game.config;
+
   runGame.restart.on('pointerdown', () => {
     runGame.alpaca.setVelocityY(0);
     runGame.alpaca.body.height = 92;
     runGame.alpaca.body.offset.y = 0;
+    runGame.alpaca.setY(height - 120);
     runGame.physics.resume();
     runGame.obstacles.clear(true, true);
     runGame.isGameRunning = true;
@@ -69,30 +74,49 @@ function handleInputs(runGame) {
     runGame.overSettingsText2.setAlpha(0);
   })
 
-  const alpaNo = ['01', '02', '03', '04'];
-
-  alpaNo.map(n => {
-    runGame[`alpaca${n}`].on('pointerdown', async () => {
-      runGame.spriteNumber = n;
-
-      runGame.alpaca.setTexture(`alpaca-${runGame.spriteNumber}-idle`, 0);
-      await runGame.anims.remove('alpaca-run')
-      await runGame.anims.create({
-        key: 'alpaca-run',
-        frames: runGame.anims.generateFrameNumbers(`alpaca-${runGame.spriteNumber}`, {start: 0, end: 1}),
-        frameRate: 5,
-        repeat: -1
+  if (runGame.ownedAlpaca.length < 1) {
+    const alpaNo = ['01', '02', '03', '04'];
+  
+    map(alpaNo, n => {
+      runGame[`alpaca${n}`].on('pointerdown', async () => {
+        runGame.spriteNumber = n;
+        console.log(`alpaca-${runGame.spriteNumber}-idle`)
+  
+        runGame.alpaca.setTexture(`alpaca-${runGame.spriteNumber}-idle`, 0);
+        /* await runGame.anims.remove('alpaca-run')
+        await runGame.anims.create({
+          key: 'alpaca-run',
+          frames: runGame.anims.generateFrameNumbers(`alpaca-${runGame.spriteNumber}`, {start: 0, end: 1}),
+          frameRate: 5,
+          repeat: -1
+        }) */
+        runGame.noStart = false;
+        runGame.settings.setInteractive();
+        runGame.overSettings.setInteractive();
+        runGame.selectScreen.setAlpha(0);
       })
-      runGame.noStart = false;
-      runGame.settings.setInteractive();
-      runGame.overSettings.setInteractive();
-      runGame.selectScreen.setAlpha(0);
+  
+      runGame[`alpaca${n}`].on('pointerover', () => runGame[`alpaca${n}`].setAlpha(1))
+  
+      runGame[`alpaca${n}`].on('pointerout', () => runGame[`alpaca${n}`].setAlpha(0.7))
     })
+  } else {
+    map(runGame.ownedAlpaca, ({ token_id }) => {
+      runGame[`alpaca${token_id}`].on('pointerdown', async () => {
+        runGame.spriteNumber = token_id;
+  
+        runGame.alpaca.setTexture(`alpaca-${runGame.spriteNumber}-idle`, 0);
+        runGame.noStart = false;
+        runGame.settings.setInteractive();
+        runGame.overSettings.setInteractive();
+        runGame.selectScreen.setAlpha(0);
+      })
+  
+      runGame[`alpaca${token_id}`].on('pointerover', () => runGame[`alpaca${token_id}`].setAlpha(1))
+      runGame[`alpaca${token_id}`].on('pointerout', () => runGame[`alpaca${token_id}`].setAlpha(0.7))
+    })
+  }
 
-    runGame[`alpaca${n}`].on('pointerover', () => runGame[`alpaca${n}`].setAlpha(1))
-
-    runGame[`alpaca${n}`].on('pointerout', () => runGame[`alpaca${n}`].setAlpha(0.7))
-  })
 }
 
 export default handleInputs;

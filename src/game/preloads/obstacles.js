@@ -5,13 +5,13 @@ function ObstacleLoad(load) {
   load.image('obstacle-4', 'assets/obstacle/obstacle-4.png')
 
   load.spritesheet('enemy-bird', 'assets/obstacle/enemy-bird.png', {
-    frameWidth: 74.5,
-    frameHeight: 75
+    frameWidth: 32,
+    frameHeight: 32
   })
 
-  load.spritesheet('enemy-bear', 'assets/obstacle/enemy-bear.png', {
-    frameWidth: 74,
-    frameHeight: 70
+  load.spritesheet('enemy-pig', 'assets/obstacle/enemy-pig.png', {
+    frameWidth: 36,
+    frameHeight: 30
   })
 
   load.spritesheet('enemy-witch', 'assets/obstacle/enemy-witch.png', {
