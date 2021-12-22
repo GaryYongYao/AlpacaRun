@@ -25,7 +25,7 @@ function SelectScreen(runGame) {
     const chkArr = chunk(runGame.ownedAlpaca, 5);
     map(chkArr, (arr, row) => {
       map(arr, ({ token_id }, col) => {
-        runGame[`alpaca${token_id}`] = runGame.add.image(-400 + (200 * col), 150 + (150 * row), `alpaca-${token_id}-idle`)
+        runGame[`alpaca${token_id}`] = runGame.add.image(-400 + (200 * col), 150 + (150 * row), `alpaca_${token_id}`)
           .setFlipX(true)
           .setAlpha(0.7)
           .setInteractive();

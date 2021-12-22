@@ -5,8 +5,8 @@ function AlpacaLoads(load) {
   
   owned.map(({ image_url, token_id }) => {
     load.image(`alpaca_${token_id}`, `${image_url}=w92`)
-    load.image(`alpaca-${token_id}`, `${image_url}=w92`);
-    load.image(`alpaca-${token_id}-idle`, `${image_url}=w92`);
+    load.image(`alpaca-${token_id}`, `assets/alpaca/${token_id}.png`);
+    load.image(`alpaca-${token_id}-idle`, `assets/alpaca/${token_id}.png`);
     load.image(`alpaca-${token_id}-hurt`, `assets/tombstones.png`);
   });
 
