@@ -22,6 +22,9 @@ function GameScreen(runGame) {
   runGame.highScoreText = runGame.add.text(0, 10, "00000", {fill: "#FFF ", font: '900 35px nokiafc22', resolution: 5})
     .setOrigin(1, 0)
     .setAlpha(0);
+  
+  runGame.multiplier = runGame.add.text(10, 10, "00000", {fill: "#FFF ", font: '900 35px nokiafc22', resolution: 5})
+    .setAlpha(0);
 
   runGame.environment = runGame.add.group();
   /* runGame.environment.addMultiple([
