@@ -1,14 +1,15 @@
 import Cookies from 'js-cookie';
+import { getMultiplier } from '../../utils';
 
 function initStartTrigger(runGame) {
   const { width, height } = runGame.game.config;
-  console.log(runGame.startTrigger.y)
+  const multiplier = getMultiplier();
+
   runGame.physics.add.overlap(runGame.startTrigger, runGame.alpaca, () => {
     if (runGame.startTrigger.y === 10) {
       runGame.startTrigger.body.reset(0, height - 100);
       return;
     }
-    console.log('lol')
 
     runGame.startTrigger.disableBody(true, true);
 
@@ -17,7 +18,6 @@ function initStartTrigger(runGame) {
       loop: true,
       callbackScope: runGame,
       callback: () => {
-        console.log('start')
         runGame.startScreen.setAlpha(0);
         runGame.alpaca.setY(height - 200);
         runGame.alpaca.setAlpha(1); 
@@ -37,6 +37,9 @@ function initStartTrigger(runGame) {
             runGame.highScoreText.setText(`HI ${highScore}`);
             runGame.highScoreText.setAlpha(1);
           }
+
+          runGame.multiplier.setText(`Multiplier: x${multiplier}`);
+          runGame.multiplier.setAlpha(1);
 
           startEvent.remove();
         }

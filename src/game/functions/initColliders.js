@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { graphRequest } from '../../utils';
+import { graphRequest, getMultiplier } from '../../utils';
 import { encrypt } from '../../utils/crypto';
 import { mutationUpdateRunScore } from '../../utils/common';
 
@@ -9,9 +9,11 @@ function initColliders(runGame) {
     runGame.highScoreText.x = runGame.scoreText.x - runGame.scoreText.width - 20;
 
     const highScore = runGame.highScoreText.text.substr(runGame.highScoreText.text.length - 5);
+    const multiplier = getMultiplier();
+    const finalScore = Math.floor(Number(runGame.scoreText.text) * multiplier)
 
     if (runGame.ownedAlpaca && runGame.ownedAlpaca.length > 0) {
-      const code = encrypt({ tokenId: runGame.spriteNumber, score: Number(runGame.scoreText.text) })
+      const code = encrypt({ tokenId: runGame.spriteNumber, score: finalScore });
 
       graphRequest(mutationUpdateRunScore, { code })
         .then(res => {
@@ -26,6 +28,9 @@ function initColliders(runGame) {
     runGame.highScoreText.setText('HI ' + newScore);
     Cookies.set('highScore', newScore);
     runGame.highScoreText.setAlpha(1);
+
+    runGame.FinalScoreText.setText(`Final Score: ${finalScore}`);
+    runGame.FinalScoreText2.setText(`Final Score: ${finalScore}`);
 
     runGame.physics.pause();
     runGame.isGameRunning = false;
