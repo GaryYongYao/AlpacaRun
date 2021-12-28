@@ -1,7 +1,9 @@
 import { map } from 'lodash';
+import { getMultiplier } from '../../utils';
 
 function handleInputs(runGame) {
   const { height } = runGame.game.config;
+  const multiplier = getMultiplier();
 
   runGame.restart.on('pointerdown', () => {
     runGame.alpaca.setVelocityY(0);

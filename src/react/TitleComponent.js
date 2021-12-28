@@ -18,8 +18,8 @@ const Component = () => {
     const assets = await request(`${OPENSEA_API}${OPENSEA_PARAMS}&asset_contract_address=${ALPACA_CONTRACT_ADD}&owner=${account}`);
 
     const alpacaList = assets.map(({ token_id, image_url }) => ({ token_id, image_url }))
-    Cookies.set('multiplier', alpacaList.length)
     if (Cookies.get('alpacas') !== JSON.stringify(alpacaList)) {
+      Cookies.set('multiplier', alpacaList.length);
       Cookies.set('alpacas', JSON.stringify(alpacaList));
       location.reload();
     }
