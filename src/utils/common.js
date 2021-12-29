@@ -15,6 +15,16 @@ export const queryGetRunLeaderboards = `
   }
 `
 
+export const queryGetRunById = `
+query getRunById($id: String!){
+  getRunById(id: $id) {
+    tokenId
+    totalScore
+    image
+  }
+}
+`
+
 export const mutationUpdateRunScore = `
   mutation updateRunScore($code: String!) {
     updateRunScore( code: $code ) 

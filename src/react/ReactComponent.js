@@ -6,13 +6,21 @@ import Twitter from '../images/twitter.png';
 import Share from '../images/share.svg';
 import LeaderboardIcon from '../images/leaderboard.png';
 import Arrow from '../images/arrow.png'
-import { graphRequest } from '../utils'
-import { queryGetRunLeaderboards } from '../utils/common'
+import { graphRequest, getURLId } from '../utils'
+import { queryGetRunLeaderboards, queryGetRunById } from '../utils/common'
 
 import '../style/style.css';
 
 const Component = () => {
   const [list, setList] = useState([])
+  const [data, setData] = useState({})
+  let id = getURLId();
+
+  if (!id) {
+    const shareID = new URL(Cookies.get('shareUrl'));
+    const searchID = shareID.search.split('?id=')[1]
+    id = searchID
+  }
 
   const getLeaderboard = () => {
     graphRequest(queryGetRunLeaderboards)
@@ -23,8 +31,26 @@ const Component = () => {
       })
   }
 
-  useEffect(() => getLeaderboard(), [])
-  useEffect(() => setTimeout(getLeaderboard, 15000), [list])
+  const getCurrentScore = () => {
+    if (id) {
+      graphRequest(queryGetRunById, { id })
+        .then(res => {
+          const { getRunById, errors } = res.data
+          if (errors) console.log(errors)
+          if (getRunById) setData(getRunById)
+        })
+    }
+  }
+
+  useEffect(() => {
+    getLeaderboard()
+    getCurrentScore()
+  }, [])
+
+  useEffect(() => {
+    setTimeout(getLeaderboard, 10000)
+    setTimeout(getCurrentScore, 10000)
+  }, [list])
 
   return (
     <>
@@ -84,7 +110,14 @@ const Component = () => {
           }}
         >
           <img id="leaderboardIcon" src={LeaderboardIcon} />
-          <div>Leaderboard</div>
+          <div>
+            {!id && 'Leaderboard'}
+            {id && (
+              <>
+                <div>#{data.tokenId}: {data.totalScore}</div>
+              </>
+            )}
+          </div>
           <img id="arrow" src={Arrow} />
         </div>
         <div id="leaderboard-content">

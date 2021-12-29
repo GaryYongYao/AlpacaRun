@@ -11,9 +11,11 @@ function AlpacaLoads(load) {
   });
 
   const id = getURLId();
-  load.image(`alpaca-${id}`, `assets/alpaca/${id}.png`);
-  load.image(`alpaca-${id}-idle`, `assets/alpaca/${id}.png`);
-  load.image(`alpaca-${id}-hurt`, `assets/tombstones.png`);
+  if (id) {
+    load.image(`alpaca-${id}`, `assets/alpaca/${id}.png`);
+    load.image(`alpaca-${id}-idle`, `assets/alpaca/${id}.png`);
+    load.image(`alpaca-${id}-hurt`, `assets/tombstones.png`);
+  }
 
   const alpaca = [
     { id: '01', w: 68 },
