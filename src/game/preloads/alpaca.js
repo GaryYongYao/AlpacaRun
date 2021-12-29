@@ -1,4 +1,4 @@
-import { getAlpacaIDs } from '../../utils';
+import { getAlpacaIDs, getURLId } from '../../utils';
 
 function AlpacaLoads(load) {
   const owned = getAlpacaIDs();
@@ -9,6 +9,11 @@ function AlpacaLoads(load) {
     load.image(`alpaca-${token_id}-idle`, `assets/alpaca/${token_id}.png`);
     load.image(`alpaca-${token_id}-hurt`, `assets/tombstones.png`);
   });
+
+  const id = getURLId();
+  load.image(`alpaca-${id}`, `assets/alpaca/${id}.png`);
+  load.image(`alpaca-${id}-idle`, `assets/alpaca/${id}.png`);
+  load.image(`alpaca-${id}-hurt`, `assets/tombstones.png`);
 
   const alpaca = [
     { id: '01', w: 68 },

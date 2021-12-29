@@ -9,6 +9,7 @@ function OverScreen(runGame) {
   runGame.restartText2 = runGame.add.text(-78, 228, "Try Again?", { fill: "#000", fontSize: 20, fontFamily: 'nokiafc22' })
     .setOrigin(0.5, 0).setAlpha(0);
   runGame.overSettings = runGame.add.image(80, 200, 'settings').setInteractive();
+  if (runGame.shareId) runGame.overSettings.setAlpha(0);
   runGame.overSettingsText = runGame.add.text(80, 225, "Pick Another ALPACA", { fill: "#fec062", fontSize: 20, fontFamily: 'nokiafc22' })
     .setOrigin(0.5, 0).setAlpha(0);
   runGame.overSettingsText2 = runGame.add.text(82, 228, "Pick Another ALPACA", { fill: "#000", fontSize: 20, fontFamily: 'nokiafc22' })

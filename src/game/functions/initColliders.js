@@ -9,11 +9,12 @@ function initColliders(runGame) {
     runGame.highScoreText.x = runGame.scoreText.x - runGame.scoreText.width - 20;
 
     const highScore = runGame.highScoreText.text.substr(runGame.highScoreText.text.length - 5);
-    const multiplier = getMultiplier();
+    const multiplier = runGame.shareId ? 1 : getMultiplier();
     const finalScore = Math.floor(Number(runGame.scoreText.text) * multiplier)
 
-    if (runGame.ownedAlpaca && runGame.ownedAlpaca.length > 0) {
-      const code = encrypt({ tokenId: runGame.spriteNumber, score: finalScore });
+    if (runGame.shareId || (runGame.ownedAlpaca && runGame.ownedAlpaca.length > 0)) {
+      const tokenId = runGame.shareId ? runGame.shareId : runGame.spriteNumber
+      const code = encrypt({ tokenId, score: finalScore });
 
       graphRequest(mutationUpdateRunScore, { code })
         .then(res => {

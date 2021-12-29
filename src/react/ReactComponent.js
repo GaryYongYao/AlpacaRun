@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import Cookies from 'js-cookie';
 import Discord from '../images/discord.png';
 import Opensea from '../images/opensea.png';
 import Twitter from '../images/twitter.png';
+import Share from '../images/share.svg';
 import LeaderboardIcon from '../images/leaderboard.png';
 import Arrow from '../images/arrow.png'
 import { graphRequest } from '../utils'
@@ -51,11 +53,31 @@ const Component = () => {
         >
           <img className="logo" alt="TWITTER" src={Twitter} />
         </a>
+        {Cookies.get('shareUrl') && (
+          <a
+            id="share-link"
+            href="#"
+            onClick={async (e) => {
+              e.preventDefault();
+              const url = Cookies.get('shareUrl');
+
+              const shareData = {
+                title: 'Alpaca Runnn',
+                text: 'Join me at run this Alpaca',
+                url
+              }
+              await navigator.share(shareData)
+            }}
+          >
+            <img className="logo" alt="Share" src={Share} />
+          </a>
+        )}
       </div>
       <div id="leaderboard">
         <div
           id="leaderboard-title"
-          onClick={() => {
+          onClick={e => {
+            e.stopPropagation();
             const className = 'open'
             var element = document.getElementById("leaderboard");
             element.classList.contains(className) ? element.classList.remove(className) : element.classList.add(className)

@@ -13,6 +13,12 @@ export const getLibrary = (provider) => {
 export const getAlpacaIDs = () => JSON.parse(Cookies.get('alpacas') || '[]');
 export const getMultiplier = () => (Number(Cookies.get('multiplier') || 0) * 0.25) + 1;
 
+export const getURLId = () => {
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const { id } = Object.fromEntries(urlSearchParams.entries());
+  return id;
+}
+
 export const request = async (url, type = 'GET', data = null) => {
   try {
     const perms = {

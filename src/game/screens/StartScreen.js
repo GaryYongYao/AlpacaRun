@@ -8,6 +8,7 @@ function StartScreen(runGame) {
   runGame.instruction2 = runGame.add.text(4, 224, "Press SPACE / ALPACA to start", { fill: "#000", fontSize: 35, fontFamily: 'nokiafc22' })
     .setOrigin(0.5, 0);
   runGame.settings = runGame.add.image(0, 80, 'settings').setInteractive();
+  if (runGame.shareId) runGame.settings.setAlpha(0);
   runGame.settingsText = runGame.add.text(0, 105, "Pick Another ALPACA", { fill: "#fec062", fontSize: 20, fontFamily: 'nokiafc22' })
     .setOrigin(0.5, 0).setAlpha(0);
   runGame.settingsText2 = runGame.add.text(2, 108, "Pick Another ALPACA", { fill: "#000", fontSize: 20, fontFamily: 'nokiafc22' })

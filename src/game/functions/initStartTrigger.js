@@ -39,7 +39,7 @@ function initStartTrigger(runGame) {
           }
 
           runGame.multiplier.setText(`Multiplier: x${multiplier}`);
-          runGame.multiplier.setAlpha(1);
+          if (!runGame.shareId) runGame.multiplier.setAlpha(1);
 
           startEvent.remove();
         }

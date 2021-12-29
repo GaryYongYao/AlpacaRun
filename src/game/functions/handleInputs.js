@@ -1,9 +1,8 @@
 import { map } from 'lodash';
-import { getMultiplier } from '../../utils';
+import Cookies from 'js-cookie';
 
 function handleInputs(runGame) {
   const { height } = runGame.game.config;
-  const multiplier = getMultiplier();
 
   runGame.restart.on('pointerdown', () => {
     runGame.alpaca.setVelocityY(0);
@@ -112,6 +111,10 @@ function handleInputs(runGame) {
         runGame.settings.setInteractive();
         runGame.overSettings.setInteractive();
         runGame.selectScreen.setAlpha(0);
+
+        let url = new URL(window.location);
+        url.searchParams.set('id', token_id);
+        Cookies.set('shareUrl', url.href);
       })
   
       runGame[`alpaca${token_id}`].on('pointerover', () => runGame[`alpaca${token_id}`].setAlpha(1))

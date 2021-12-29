@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import { getAlpacaIDs } from './utils';
+import Cookies from 'js-cookie';
+import { getAlpacaIDs, getURLId } from './utils';
 import { GameScreen, OverScreen, SelectScreen, StartScreen } from './game/screens'
 import { initAnims, initColliders, initStartTrigger } from './game/functions/initiate'
 import { handleInputs, handleScore, placeObstacle } from './game/functions'
@@ -18,6 +19,14 @@ class PlayScene extends Phaser.Scene {
     this.score = 0;
     this.spriteNumber = this.ownedAlpaca.length > 0 ? this.ownedAlpaca[0].token_id : '01'
     this.noStart  = false
+
+    this.shareId = getURLId()
+
+    if (this.shareId) this.spriteNumber = this.shareId
+    
+    let url = new URL(window.location);
+    url.searchParams.set('id', this.spriteNumber);
+    Cookies.set('shareUrl', url.href);
 
     this.jumpSound = this.sound.add('jump', {volume: 0.2});
     this.hitSound = this.sound.add('hit', {volume: 0.2});
