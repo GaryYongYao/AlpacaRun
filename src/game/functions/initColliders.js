@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { graphRequest, getMultiplier } from '../../utils';
+import { graphRequest/* , getMultiplier */ } from '../../utils';
 import { encrypt } from '../../utils/crypto';
 import { mutationUpdateRunScore } from '../../utils/common';
 
@@ -9,8 +9,9 @@ function initColliders(runGame) {
     runGame.highScoreText.x = runGame.scoreText.x - runGame.scoreText.width - 20;
 
     const highScore = runGame.highScoreText.text.substr(runGame.highScoreText.text.length - 5);
-    const multiplier = runGame.shareId ? 1 : getMultiplier();
-    const finalScore = Math.floor(Number(runGame.scoreText.text) * multiplier)
+    // const multiplier = runGame.shareId ? 1 : getMultiplier();
+    // const finalScore = Math.floor(Number(runGame.scoreText.text) * multiplier)
+    const finalScore = Number(runGame.scoreText.text)
 
     if (runGame.shareId || (runGame.ownedAlpaca && runGame.ownedAlpaca.length > 0)) {
       const tokenId = runGame.shareId ? runGame.shareId : runGame.spriteNumber

@@ -1,9 +1,9 @@
 import Cookies from 'js-cookie';
-import { getMultiplier } from '../../utils';
+// import { getMultiplier } from '../../utils';
 
 function initStartTrigger(runGame) {
   const { width, height } = runGame.game.config;
-  const multiplier = getMultiplier();
+  // const multiplier = getMultiplier();
 
   runGame.physics.add.overlap(runGame.startTrigger, runGame.alpaca, () => {
     if (runGame.startTrigger.y === 10) {
@@ -38,8 +38,8 @@ function initStartTrigger(runGame) {
             runGame.highScoreText.setAlpha(1);
           }
 
-          runGame.multiplier.setText(`Multiplier: x${multiplier}`);
-          if (!runGame.shareId) runGame.multiplier.setAlpha(1);
+          /* runGame.multiplier.setText(`Multiplier: x${multiplier}`);
+          if (!runGame.shareId) runGame.multiplier.setAlpha(1); */
 
           startEvent.remove();
         }

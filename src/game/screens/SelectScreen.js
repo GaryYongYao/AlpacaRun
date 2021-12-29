@@ -9,6 +9,10 @@ function SelectScreen(runGame) {
     .setOrigin(0.5, 0);
 
   const selection = [runGame.selectBackground, runGame.selectText]
+
+  
+  const zone = runGame.add.zone(0, 0, 1200, 880).setInteractive();
+  selection.push(zone)
   
   if (runGame.ownedAlpaca.length < 1) {
     const alpaNo = ['01', '02', '03', '04'];
@@ -31,6 +35,16 @@ function SelectScreen(runGame) {
           .setInteractive();
   
         selection.push(runGame[`alpaca${token_id}`])
+      })
+    })
+    
+    zone.on('wheel', function (pointer) {
+      map(chkArr, (arr, row) => {
+        map(arr, ({ token_id }, col) => {
+          runGame[`alpaca${token_id}`].y = runGame[`alpaca${token_id}`].y - pointer.deltaY;
+      
+          runGame[`alpaca${token_id}`].y = Phaser.Math.Clamp(runGame[`alpaca${token_id}`].y, (150 + (150 * row)) - (150 * (chkArr.length - 1)), 150 + (150 * row));
+        })
       })
     })
   }
