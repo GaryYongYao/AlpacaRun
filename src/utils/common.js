@@ -8,9 +8,16 @@ export const ALPACA_CONTRACT_ADD = '0x3db5463a9e2d04334192c6f2dd4b72def4751a61';
 export const queryGetRunLeaderboards = `
   query {
     getRunLeaderboards {
-      tokenId
-      totalScore
-      image
+      totalLeader {
+        tokenId
+        totalScore
+        image
+      }
+      singleRoundLeader {
+        tokenId
+        highScore
+        image
+      }
     }
   }
 `
@@ -20,6 +27,7 @@ query getRunById($id: String!){
   getRunById(id: $id) {
     tokenId
     totalScore
+    highScore
     image
   }
 }

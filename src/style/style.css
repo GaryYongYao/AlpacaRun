@@ -99,14 +99,13 @@ body {
   background-color: #fff;
   width: 30%;
   min-width: 400px;
-  padding: 1rem 0;
   position: absolute;
   bottom: 0;
 }
 
 #leaderboard-title {
   text-align: center;
-  padding: 0 0.7rem;
+  padding: 1rem 0.7rem;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -125,7 +124,7 @@ body {
   transform: rotate(-180deg);
 }
 
-#leaderboard-content {
+.leaderboard-content {
   max-height: 0;
   height: 100%;
   transition: max-height .4s;
@@ -141,8 +140,15 @@ body {
   transform: rotate(0deg);
 }
 
-.open #leaderboard-content {
+.open .leaderboard-content {
   max-height: 250px;
+}
+
+.leaderboard-mode {
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+  padding: 15px 0;
 }
 
 .rank {

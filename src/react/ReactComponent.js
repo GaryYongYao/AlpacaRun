@@ -12,7 +12,9 @@ import { queryGetRunLeaderboards, queryGetRunById } from '../utils/common'
 import '../style/style.css';
 
 const Component = () => {
-  const [list, setList] = useState([])
+  const [total, setTotal] = useState([])
+  const [high, setHigh] = useState([])
+  const [mode, setMode] = useState(1)
   const [data, setData] = useState({})
   let id = getURLId();
 
@@ -27,7 +29,10 @@ const Component = () => {
       .then(res => {
         const { getRunLeaderboards, errors } = res.data
         if (errors) console.log(errors)
-        if (getRunLeaderboards) setList(getRunLeaderboards)
+        if (getRunLeaderboards) {
+          setTotal(getRunLeaderboards.totalLeader)
+          setHigh(getRunLeaderboards.singleRoundLeader)
+        }
       })
   }
 
@@ -50,7 +55,7 @@ const Component = () => {
   useEffect(() => {
     setTimeout(getLeaderboard, 10000)
     setTimeout(getCurrentScore, 10000)
-  }, [list])
+  }, [total])
 
   return (
     <>
@@ -114,20 +119,68 @@ const Component = () => {
             {!id && 'Leaderboard'}
             {id && (
               <>
-                <div>#{data.tokenId}: {data.totalScore}</div>
+                <div>
+                  #{data.tokenId}
+                  <br />
+                  Total: {data.totalScore} | Single : {data.highScore}
+                </div>
               </>
             )}
           </div>
           <img id="arrow" src={Arrow} />
         </div>
-        <div id="leaderboard-content">
-          {list.map(({ tokenId, totalScore, image }) => (
-            <div key={tokenId} className="rank">
-              <img src={image} />
-              <div>#{tokenId}</div>
-              <div className="score">{totalScore}</div>
-            </div>
-          ))}
+        <div className="leaderboard-content">
+          <div className="leaderboard-mode">
+            <span
+              onClick={e => {
+                e.preventDefault();
+                setMode(1);
+              }}
+              style={{
+                textDecoration: mode === 1 ? 'none' : 'underline',
+                cursor: mode === 1 ? 'default' : 'pointer',
+                color: mode === 1 ? '#000' : '#fec062'
+              }}
+            >
+              Total Score
+            </span>
+            <span> | </span>
+            <span
+              onClick={e => {
+                e.preventDefault();
+                setMode(2);
+              }}
+              style={{
+                textDecoration: mode === 2 ? 'none' : 'underline',
+                cursor: mode === 2 ? 'default' : 'pointer',
+                color: mode === 2 ? '#000' : '#fec062'
+              }}
+            >
+              Single Run
+            </span>
+          </div>
+          {mode === 1 && (
+            <>
+              {total.map(({ tokenId, totalScore, image }) => (
+                <div key={tokenId} className="rank">
+                  <img src={image} />
+                  <div>#{tokenId}</div>
+                  <div className="score">{totalScore}</div>
+                </div>
+              ))}
+            </>
+          )}
+          {mode === 2 && (
+            <>
+              {high.map(({ tokenId, highScore, image }) => (
+                <div key={tokenId} className="rank">
+                  <img src={image} />
+                  <div>#{tokenId}</div>
+                  <div className="score">{highScore}</div>
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </div>
     </>

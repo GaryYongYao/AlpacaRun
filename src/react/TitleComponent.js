@@ -11,7 +11,10 @@ const Component = () => {
   const {activateBrowserWallet, account } = useEthers();
 
   const handleConnectWallet = () => {
-    activateBrowserWallet();
+    const { ethereum } = window || {}
+    if (ethereum && ethereum.isMetaMask) {
+      activateBrowserWallet();
+    } else window.open('https://metamask.app.link/dapp/run.alpacadabraz.io/')
   }
 
   const getAlpaca = async () => {

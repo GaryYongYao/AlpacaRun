@@ -40,7 +40,7 @@ function SelectScreen(runGame) {
     
     zone.on('wheel', function (pointer) {
       map(chkArr, (arr, row) => {
-        map(arr, ({ token_id }, col) => {
+        map(arr, ({ token_id }) => {
           runGame[`alpaca${token_id}`].y = runGame[`alpaca${token_id}`].y - pointer.deltaY;
       
           runGame[`alpaca${token_id}`].y = Phaser.Math.Clamp(runGame[`alpaca${token_id}`].y, (150 + (150 * row)) - (150 * (chkArr.length - 1)), 150 + (150 * row));
