@@ -4,8 +4,8 @@ function placeObstacle(runGame) {
 
   let obstacle;
   if (obstacleNum > 6) {
-    const enemyHeight = [20, 50];
-    obstacle = runGame.obstacles.create(runGame.game.config.width + distance, runGame.game.config.height - enemyHeight[Math.floor(Math.random() * 2)] - 100, `enemy-bird`)
+    const enemyHeight = [20, 40, 100, 120, 150, 200];
+    obstacle = runGame.obstacles.create(runGame.game.config.width + distance, runGame.game.config.height - enemyHeight[Math.floor(Math.random() * 6)] - 100, `enemy-bird`)
       .setOrigin(0, 1)
       .setScale(2.3)
     obstacle.play('enemy-bird-fly', 1);
