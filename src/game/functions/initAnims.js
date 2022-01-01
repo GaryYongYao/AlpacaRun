@@ -7,6 +7,27 @@ function initAnims(runGame) {
   }) */
 
   runGame.anims.create({
+    key: 'blue-firework',
+    frames: runGame.anims.generateFrameNumbers('blue', {start: 0, end: 56}),
+    frameRate: 24,
+    repeat: 1
+  })
+
+  runGame.anims.create({
+    key: 'green-firework',
+    frames: runGame.anims.generateFrameNumbers('green', {start: 0, end: 53}),
+    frameRate: 24,
+    repeat: 1
+  })
+
+  runGame.anims.create({
+    key: 'orange-firework',
+    frames: runGame.anims.generateFrameNumbers('orange', {start: 0, end: 56}),
+    frameRate: 24,
+    repeat: 1
+  })
+
+  runGame.anims.create({
     key: 'enemy-bird-fly',
     frames: runGame.anims.generateFrameNumbers('enemy-bird', {start: 0, end: 3}),
     frameRate: 6,

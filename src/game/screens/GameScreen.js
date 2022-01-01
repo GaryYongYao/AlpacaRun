@@ -25,6 +25,26 @@ function GameScreen(runGame) {
   
   runGame.multiplier = runGame.add.text(10, 10, "00000", {fill: "#FFF ", font: '900 35px nokiafc22', resolution: 5})
     .setAlpha(0);
+    
+  runGame.firework1 = runGame.add.sprite(400, 180, 'orange')
+    .setDisplaySize(150, 150)
+    .setAlpha(0)
+
+  runGame.firework2 = runGame.add.sprite(200, 100, 'blue')
+    .setDisplaySize(150, 150)
+    .setAlpha(0)
+
+  runGame.firework3 = runGame.add.sprite(1000, 120, 'orange')
+    .setDisplaySize(150, 150)
+    .setAlpha(0)
+
+  runGame.firework4 = runGame.add.sprite(800, 90, 'blue')
+    .setDisplaySize(150, 150)
+    .setAlpha(0)
+    
+  runGame.firework5 = runGame.add.sprite(600, 150, 'green')
+    .setDisplaySize(150, 150)
+    .setAlpha(0)
 
   runGame.environment = runGame.add.group();
   /* runGame.environment.addMultiple([
