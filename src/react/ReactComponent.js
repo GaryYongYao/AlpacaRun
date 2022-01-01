@@ -18,7 +18,7 @@ const Component = () => {
   const [data, setData] = useState({})
   let id = getURLId();
 
-  if (!id) {
+  if (!id && Cookies.get('shareUrl')) {
     const shareID = new URL(Cookies.get('shareUrl'));
     const searchID = shareID.search.split('?id=')[1]
     id = searchID

@@ -7,7 +7,7 @@ function handleInputs(runGame) {
   function tweetscore(){
     //share score on twitter
     var tweetbegin = `https://twitter.com/intent/tweet?text=`;
-    var tweettxt = `I scored ${Number(runGame.scoreText.text)} at Alpaca RUNNN. ${window.location.href}`;
+    var tweettxt = `I scored ${Number(runGame.scoreText.text)} at Alpaca RUNNN. \n ${window.location.href} \n #AlpacaRun #NFT @Alpacadabraz`;
     var finaltweet = tweetbegin + encodeURIComponent(tweettxt);
     window.open(finaltweet,'_blank');
   }
