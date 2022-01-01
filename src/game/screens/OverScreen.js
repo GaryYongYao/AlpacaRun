@@ -18,9 +18,10 @@ function OverScreen(runGame) {
       .setOrigin(0.5, 0);
   runGame.FinalScoreText2 = runGame.add.text(2, 258, 'Final Score: 0', { fill: "#000", fontSize: 30, fontFamily: 'nokiafc22' })
       .setOrigin(0.5, 0);
+  runGame.twitter = runGame.add.image(0, 320, 'twitter').setInteractive();
   runGame.gameOverBackground = runGame.add.rectangle(0, 0, width, height, '#000').setOrigin(0.5, 0).setAlpha(0.6)
   runGame.gameOverScreen.add([
-    runGame.gameOverBackground, runGame.gameOverText, runGame.overSettingsText2, runGame.restartText2, runGame.restartText, runGame.overSettingsText, runGame.restart, runGame.overSettings, runGame.FinalScoreText2, runGame.FinalScoreText
+    runGame.gameOverBackground, runGame.gameOverText, runGame.overSettingsText2, runGame.restartText2, runGame.restartText, runGame.overSettingsText, runGame.restart, runGame.overSettings, runGame.FinalScoreText2, runGame.FinalScoreText, runGame.twitter
   ])
 }
 

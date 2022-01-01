@@ -4,6 +4,14 @@ import Cookies from 'js-cookie';
 function handleInputs(runGame) {
   const { height } = runGame.game.config;
 
+  function tweetscore(){
+    //share score on twitter
+    var tweetbegin = `https://twitter.com/intent/tweet?text=`;
+    var tweettxt = `I scored ${Number(runGame.scoreText.text)} at Alpaca RUNNN. ${window.location.href}`;
+    var finaltweet = tweetbegin + encodeURIComponent(tweettxt);
+    window.open(finaltweet,'_blank');
+  }
+
   runGame.restart.on('pointerdown', () => {
     runGame.alpaca.setVelocityY(0);
     runGame.alpaca.body.height = 92;
@@ -121,6 +129,8 @@ function handleInputs(runGame) {
       runGame[`alpaca${token_id}`].on('pointerout', () => runGame[`alpaca${token_id}`].setAlpha(0.7))
     })
   }
+
+  runGame.twitter.on('pointerdown', async () => tweetscore());
 
 }
 
