@@ -23,14 +23,6 @@ function handleInputs(runGame) {
     runGame.gameOverScreen.setAlpha(0);
     runGame.anims.resumeAll();
   })
-  runGame.restart.on('pointerover', () => {
-    runGame.restartText.setAlpha(1);
-    runGame.restartText2.setAlpha(1);
-  })
-  runGame.restart.on('pointerout', () => {
-    runGame.restartText.setAlpha(0);
-    runGame.restartText2.setAlpha(0);
-  })
 
   const jump = () => {
     if (!runGame.alpaca.body.onFloor() || runGame.alpaca.body.velocity.x > 0 || runGame.noStart ) return; 
@@ -55,15 +47,9 @@ function handleInputs(runGame) {
     runGame.settings.disableInteractive();
     runGame.selectScreen.setAlpha(1);
   })
-  runGame.settings.on('pointerover', () => {
-    runGame.settingsText.setAlpha(1);
-    runGame.settingsText2.setAlpha(1);
-  })
   runGame.settings.on('pointerup', () => runGame.settings.setTexture('settings'))
   runGame.settings.on('pointerout', () => {
     runGame.settings.setTexture('settings');
-    runGame.settingsText.setAlpha(0);
-    runGame.settingsText2.setAlpha(0);
   })
 
   runGame.overSettings.on('pointerdown', async () => {
@@ -72,15 +58,9 @@ function handleInputs(runGame) {
     runGame.overSettings.disableInteractive();
     runGame.selectScreen.setAlpha(1);
   })
-  runGame.overSettings.on('pointerover', () => {
-    runGame.overSettingsText.setAlpha(1);
-    runGame.overSettingsText2.setAlpha(1);
-  })
   runGame.overSettings.on('pointerup', () => runGame.overSettings.setTexture('settings'))
   runGame.overSettings.on('pointerout', () => {
     runGame.overSettings.setTexture('settings');
-    runGame.overSettingsText.setAlpha(0);
-    runGame.overSettingsText2.setAlpha(0);
   })
 
   if (runGame.ownedAlpaca.length < 1) {
