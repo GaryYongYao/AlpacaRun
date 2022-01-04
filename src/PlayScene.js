@@ -21,8 +21,9 @@ class PlayScene extends Phaser.Scene {
     this.respawnTime = 0;
     this.obsCount = 0;
     this.score = 0;
-    this.spriteNumber = this.ownedAlpaca.length > 0 ? this.ownedAlpaca[0].token_id : '01'
-    this.noStart  = false
+    this.spriteNumber = this.ownedAlpaca.length > 0 ? this.ownedAlpaca[0].token_id : '01';
+    this.noStart  = false;
+    this.physics.world.setFPS(60);
 
     this.shareId = getURLId()
 
