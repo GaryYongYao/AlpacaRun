@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Cookies from 'js-cookie';
+import { useEthers } from "@usedapp/core";
 import { getAlpacaIDs, getURLId } from './utils';
 import { GameScreen, OverScreen, SelectScreen, StartScreen } from './game/screens'
 import { initAnims, initColliders, initStartTrigger } from './game/functions/initiate'
@@ -12,7 +13,9 @@ class PlayScene extends Phaser.Scene {
   }
 
   create() {
-    this.ownedAlpaca = getAlpacaIDs();
+    const { ethereum } = window
+    
+    this.ownedAlpaca = ethereum.selectedAddress ? getAlpacaIDs() : [];
     this.gameSpeed = 18;
     this.isGameRunning = false;
     this.respawnTime = 0;

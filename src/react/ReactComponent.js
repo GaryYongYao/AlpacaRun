@@ -7,7 +7,7 @@ import Share from '../images/share.svg';
 import LeaderboardIcon from '../images/leaderboard.png';
 import Arrow from '../images/arrow.png'
 import { graphRequest, getURLId } from '../utils'
-import { queryGetRunLeaderboards, queryGetRunById } from '../utils/common'
+import { queryGetRunLeaderboards, queryGetNopacaRunLeaderboards, queryGetNopacaRunById, queryGetRunById } from '../utils/common'
 
 import '../style/style.css';
 
@@ -16,6 +16,7 @@ const Component = () => {
   const [high, setHigh] = useState([])
   const [mode, setMode] = useState(1)
   const [data, setData] = useState({})
+  const [disId, setDisId] = useState({})
   let id = getURLId();
 
   if (!id && Cookies.get('shareUrl')) {
@@ -25,24 +26,46 @@ const Component = () => {
   }
 
   const getLeaderboard = () => {
-    graphRequest(queryGetRunLeaderboards)
-      .then(res => {
-        const { getRunLeaderboards, errors } = res.data
-        if (errors) console.log(errors)
-        if (getRunLeaderboards) {
-          setTotal(getRunLeaderboards.totalLeader)
-          setHigh(getRunLeaderboards.singleRoundLeader)
-        }
-      })
+    const { ethereum } = window
+
+    if ((ethereum || {}).selectedAddress) {
+      graphRequest(queryGetRunLeaderboards)
+        .then(res => {
+          const { getRunLeaderboards, errors } = res.data
+          if (errors) console.log(errors)
+          if (getRunLeaderboards) {
+            setTotal(getRunLeaderboards.totalLeader)
+            setHigh(getRunLeaderboards.singleRoundLeader)
+          }
+        })
+    } else  {
+      graphRequest(queryGetNopacaRunLeaderboards)
+        .then(res => {
+          const { getNopacaRunLeaderboards, errors } = res.data
+          if (errors) console.log(errors)
+          if (getNopacaRunLeaderboards) {
+            setTotal(getNopacaRunLeaderboards.totalLeader)
+            setHigh(getNopacaRunLeaderboards.singleRoundLeader)
+          }
+        })
+    }
   }
 
   const getCurrentScore = () => {
-    if (id) {
+    const { ethereum } = window
+    if (id && (ethereum || {}).selectedAddress) {
       graphRequest(queryGetRunById, { id })
         .then(res => {
           const { getRunById, errors } = res.data
           if (errors) console.log(errors)
           if (getRunById) setData(getRunById)
+        })
+    } else if (disId) {
+      graphRequest(queryGetNopacaRunById, { id: disId })
+        .then(res => {
+          const { getNopacaRunById, errors } = res.data
+          if (errors) console.log(errors)
+          if (getNopacaRunById) setData(getNopacaRunById)
         })
     }
   }
@@ -116,8 +139,8 @@ const Component = () => {
         >
           <img id="leaderboardIcon" src={LeaderboardIcon} />
           <div>
-            {!id && 'Leaderboard'}
-            {id && (
+            {(!(ethereum || {}).selectedAddress) && 'Leaderboard'}
+            {(id && (ethereum || {}).selectedAddress) && (
               <>
                 <div>
                   #{data.tokenId}
@@ -163,7 +186,7 @@ const Component = () => {
             <>
               {total.map(({ tokenId, totalScore, image }) => (
                 <div key={tokenId} className="rank">
-                  <img src={image} />
+                  {(id && (ethereum || {}).selectedAddress) && <img src={image} />}
                   <div>#{tokenId}</div>
                   <div className="score">{totalScore}</div>
                 </div>
@@ -174,7 +197,7 @@ const Component = () => {
             <>
               {high.map(({ tokenId, highScore, image }) => (
                 <div key={tokenId} className="rank">
-                  <img src={image} />
+                {(id && (ethereum || {}).selectedAddress) && <img src={image} />}
                   <div>#{tokenId}</div>
                   <div className="score">{highScore}</div>
                 </div>

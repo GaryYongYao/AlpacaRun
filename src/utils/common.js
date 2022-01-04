@@ -22,6 +22,21 @@ export const queryGetRunLeaderboards = `
   }
 `
 
+export const queryGetNopacaRunLeaderboards = `
+  query {
+    getNopacaRunLeaderboards {
+      totalLeader {
+        discord
+        totalScore
+      }
+      singleRoundLeader {
+        discord
+        highScore
+      }
+    }
+  }
+`
+
 export const queryGetRunById = `
 query getRunById($id: String!){
   getRunById(id: $id) {
@@ -33,8 +48,24 @@ query getRunById($id: String!){
 }
 `
 
+export const queryGetNopacaRunById= `
+query getNopacaRunById($id: String!){
+  getNopacaRunById(id: $id) {
+    discord
+    totalScore
+    highScore
+  }
+}
+`
+
 export const mutationUpdateRunScore = `
   mutation updateRunScore($code: String!) {
     updateRunScore( code: $code ) 
+  }
+`
+
+export const mutationUpdateNopacaRunScore = `
+  mutation updateNopacaRunScore($code: String!) {
+    updateNopacaRunScore( code: $code ) 
   }
 `

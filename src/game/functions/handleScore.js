@@ -9,7 +9,6 @@ function handleScore(runGame) {
       runGame.score++;
       runGame.gameSpeed += 0.01
 
-
       if (runGame.score % 500 === 0) {
         runGame.reachSound.play();
 

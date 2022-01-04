@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { graphRequest/* , getMultiplier */ } from '../../utils';
 import { encrypt } from '../../utils/crypto';
-import { mutationUpdateRunScore } from '../../utils/common';
+import { mutationUpdateRunScore, mutationUpdateNopacaRunScore } from '../../utils/common';
 
 function initColliders(runGame) {
   runGame.physics.add.collider(runGame.ground, runGame.alpaca);
@@ -24,6 +24,19 @@ function initColliders(runGame) {
         })
         .catch(err =>  console.log(err))
     }
+
+    /* nopaca logic
+    if (runGame.shareId || (runGame.ownedAlpaca && runGame.ownedAlpaca.length > 0)) {
+      const tokenId = runGame.shareId ? runGame.shareId : runGame.spriteNumber
+      const code = encrypt({ tokenId, score: finalScore });
+
+      graphRequest(mutationUpdateRunScore, { code })
+        .then(res => {
+          const { updateRunScore } = res.data
+          console.log(updateRunScore)
+        })
+        .catch(err =>  console.log(err))
+    } */
     
     const newScore = Number(runGame.scoreText.text) > Number(highScore) ? runGame.scoreText.text : highScore;
 
