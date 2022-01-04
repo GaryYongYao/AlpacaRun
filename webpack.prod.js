@@ -2,6 +2,7 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+var WebpackObfuscator = require('webpack-obfuscator');
 
 module.exports = merge(common, {
   mode: 'production',
@@ -23,5 +24,8 @@ module.exports = merge(common, {
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new WebpackObfuscator ({
+      rotateStringArray: true
+    }, []),
   ]
 })
