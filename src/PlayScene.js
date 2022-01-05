@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import Cookies from 'js-cookie';
-import { useEthers } from "@usedapp/core";
 import { getAlpacaIDs, getURLId } from './utils';
 import { GameScreen, OverScreen, SelectScreen, StartScreen } from './game/screens'
 import { initAnims, initColliders, initStartTrigger } from './game/functions/initiate'
@@ -56,7 +55,7 @@ class PlayScene extends Phaser.Scene {
     if (!this.isGameRunning) { return; }
     this.frameTime += delta;
 
-    if (this.frameTime > 16.5) {  
+    if (this.frameTime > 16) {  
       this.frameTime = 0;
 
       this.ground.tilePositionX += this.gameSpeed;

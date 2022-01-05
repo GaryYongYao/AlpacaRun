@@ -1,4 +1,5 @@
 function StaticLoads(load) {
+
   const statics = [ 'ground',  'background', 'restart', 
     'settings', 'settings-press',  'close', 'close-press', 
     'start', 'game-over', 'twitter'

@@ -1,5 +1,6 @@
 function StartScreen(runGame) {
   const { height, width } = runGame.game.config;
+  const { ethereum } = window;
 
   runGame.startScreen = runGame.add.container(width / 2, height / 4 - 50).setAlpha(1);
   runGame.startText = runGame.add.image(0, 0, 'start');
@@ -13,9 +14,31 @@ function StartScreen(runGame) {
     .setOrigin(0.5, 0);
   runGame.settingsText2 = runGame.add.text(2, 108, "Pick Another ALPACA", { fill: "#000", fontSize: 20, fontFamily: 'nokiafc22' })
     .setOrigin(0.5, 0);
-  runGame.startScreen.add([
-    runGame.startText, runGame.instruction2, runGame.instruction, runGame.settings, runGame.settingsText2, runGame.settingsText
-  ])
+
+  const startScreensComp = [
+    runGame.startText, runGame.instruction2, runGame.instruction,
+    runGame.settings, runGame.settingsText2, runGame.settingsText
+  ]
+  
+  if (!ethereum.selectedAddress) {
+    runGame.inputText = runGame.add.rexInputText(0, 175, 400, 50, {
+      placeholder: 'Your Discord ID (without #)',
+      paddingLeft: '25px',
+      paddingRight: '25px',
+      fontSize: '25px',
+      backgroundColor: '#fff',
+      color: '#000'
+    })
+      .setOrigin(0.5, 0.5)
+      .on('textchange', function (inputText) {
+        //remmerbr to trim then set cookie
+        inputText.setText(inputText.text)
+      });
+
+    startScreensComp.push(runGame.inputText);
+  }
+
+  runGame.startScreen.add(startScreensComp);
 }
 
 export default StartScreen;
