@@ -142,7 +142,8 @@ const Component = () => {
             {(data.tokenId || data.discord) && (
               <>
                 <div>
-                  #{data.tokenId || data.discord}
+                  {data.tokenId ? '#' : ''}
+                  {data.tokenId || data.discord}
                   <br />
                   Total: {data.totalScore} | Single : {data.highScore}
                 </div>
@@ -183,10 +184,13 @@ const Component = () => {
           </div>
           {mode === 1 && (
             <>
-              {total.map(({ tokenId, discord, totalScore, image }) => (
+              {total.map(({ tokenId, discord, totalScore, image }, index) => (
                 <div key={tokenId} className="rank">
                   {(id && (ethereum || {}).selectedAddress) && <img src={image} />}
-                  <div>#{tokenId || discord}</div>
+                  <div>
+                    {tokenId ? '#' : `${index+1}. `}
+                    {tokenId || discord}
+                  </div>
                   <div className="score">{totalScore}</div>
                 </div>
               ))}
@@ -194,10 +198,13 @@ const Component = () => {
           )}
           {mode === 2 && (
             <>
-              {high.map(({ tokenId, discord, highScore, image }) => (
+              {high.map(({ tokenId, discord, highScore, image }, index) => (
                 <div key={tokenId} className="rank">
-                {(id && (ethereum || {}).selectedAddress) && <img src={image} />}
-                  <div>#{tokenId || discord}</div>
+                  {(id && (ethereum || {}).selectedAddress) && <img src={image} />}
+                  <div>
+                    {tokenId ? '#' : `${index+1}. `}
+                    {tokenId || discord}
+                  </div>
                   <div className="score">{highScore}</div>
                 </div>
               ))}

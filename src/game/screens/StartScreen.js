@@ -24,7 +24,7 @@ function StartScreen(runGame) {
   
   if (!ethereum.selectedAddress && !runGame.shareId) {
     runGame.inputText = runGame.add.rexInputText(0, 175, 400, 50, {
-      placeholder: 'Your Discord ID (without #)',
+      placeholder: 'Your Discord ID',
       text: runGame.disId,
       paddingLeft: '25px',
       paddingRight: '25px',
