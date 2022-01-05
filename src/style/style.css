@@ -99,7 +99,7 @@ body {
   background-color: #fff;
   width: 30%;
   min-width: 400px;
-  position: absolute;
+  position: fixed;
   bottom: 0;
 }
 

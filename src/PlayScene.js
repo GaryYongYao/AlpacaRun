@@ -23,6 +23,7 @@ class PlayScene extends Phaser.Scene {
     this.score = 0;
     this.spriteNumber = this.ownedAlpaca.length > 0 ? this.ownedAlpaca[0].token_id : '01';
     this.noStart  = false;
+    this.frameTime = 0;
     this.physics.world.setFPS(60);
 
     this.shareId = getURLId()
@@ -53,39 +54,44 @@ class PlayScene extends Phaser.Scene {
 
   update(time, delta) {
     if (!this.isGameRunning) { return; }
+    this.frameTime += delta;
 
-    this.ground.tilePositionX += this.gameSpeed;
-    Phaser.Actions.IncX(this.obstacles.getChildren(), -this.gameSpeed);
-    Phaser.Actions.IncX(this.environment.getChildren(), - 0.5);
+    if (this.frameTime > 16.5) {  
+      this.frameTime = 0;
 
-    this.respawnTime += delta * this.gameSpeed * 0.08;
-    if (this.respawnTime >= 1500 && this.obsCount < 20) {
-      this.obsCount++;
-      placeObstacle(this);
-      this.respawnTime = 0;
-    } else if (this.obsCount > 19 && this.respawnTime >= 3000) {
-      this.obsCount = 0;
-      placeObstacle(this);
-      this.respawnTime = 0;
-    }
-
-    this.obstacles.getChildren().forEach(obstacle => {
-      if (obstacle.getBounds().right < 0) {
-        this.obstacles.killAndHide(obstacle);
+      this.ground.tilePositionX += this.gameSpeed;
+      Phaser.Actions.IncX(this.obstacles.getChildren(), -this.gameSpeed);
+      Phaser.Actions.IncX(this.environment.getChildren(), - 0.5);
+  
+      this.respawnTime += 16.5 * this.gameSpeed * 0.08;
+      if (this.respawnTime >= 1500 && this.obsCount < 20) {
+        this.obsCount++;
+        placeObstacle(this);
+        this.respawnTime = 0;
+      } else if (this.obsCount > 19 && this.respawnTime >= 3000) {
+        this.obsCount = 0;
+        placeObstacle(this);
+        this.respawnTime = 0;
       }
-    })
-
-    this.environment.getChildren().forEach(env => {
-      if (env.getBounds().right < 0) {
-        env.x = this.game.config.width + 30;
+  
+      this.obstacles.getChildren().forEach(obstacle => {
+        if (obstacle.getBounds().right < 0) {
+          this.obstacles.killAndHide(obstacle);
+        }
+      })
+  
+      this.environment.getChildren().forEach(env => {
+        if (env.getBounds().right < 0) {
+          env.x = this.game.config.width + 30;
+        }
+      })
+  
+      if (this.alpaca.body.deltaAbsY() > 5) {
+        this.alpaca.anims.stop();
+        this.alpaca.setTexture(`alpaca-${this.spriteNumber}`, 0);
+      } else {
+        // this.alpaca.play('alpaca-run', true);
       }
-    })
-
-    if (this.alpaca.body.deltaAbsY() > 5) {
-      this.alpaca.anims.stop();
-      this.alpaca.setTexture(`alpaca-${this.spriteNumber}`, 0);
-    } else {
-      // this.alpaca.play('alpaca-run', true);
     }
   }
 }

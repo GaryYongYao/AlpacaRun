@@ -16,7 +16,7 @@ const Component = () => {
   const [high, setHigh] = useState([])
   const [mode, setMode] = useState(1)
   const [data, setData] = useState({})
-  const [disId, setDisId] = useState({})
+  const [disId, setDisId] = useState('')
   let id = getURLId();
 
   if (!id && Cookies.get('shareUrl')) {
