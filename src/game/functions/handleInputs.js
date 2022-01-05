@@ -24,8 +24,11 @@ function handleInputs(runGame) {
     runGame.anims.resumeAll();
   })
 
-  const jump = () => {
-    if (!runGame.alpaca.body.onFloor() || runGame.alpaca.body.velocity.x > 0 || runGame.noStart ) return; 
+  const jump = (notSpace = true) => {
+    if (!runGame.alpaca.body.onFloor() || runGame.alpaca.body.velocity.x > 0 || runGame.noStart ) {
+      if (runGame.noStart && notSpace) runGame.inputText.setBlur();
+      return;
+    } 
 
     if (runGame.gameOverScreen.alpha !== 1) {
       runGame.jumpSound.play();
@@ -36,7 +39,7 @@ function handleInputs(runGame) {
     }
   }
 
-  runGame.input.keyboard.on('keydown-SPACE', jump)
+  runGame.input.keyboard.on('keydown-SPACE', () => jump(false))
   runGame.alpaca.on('pointerdown', jump)
   runGame.ground.on('pointerdown', jump)
   runGame.goodWeather.on('pointerdown', jump)
@@ -46,6 +49,7 @@ function handleInputs(runGame) {
     runGame.settings.setTexture('settings-press');
     runGame.settings.disableInteractive();
     runGame.selectScreen.setAlpha(1);
+    runGame.inputText.setAlpha(0);
   })
   runGame.settings.on('pointerup', () => runGame.settings.setTexture('settings'))
   runGame.settings.on('pointerout', () => {
@@ -83,6 +87,7 @@ function handleInputs(runGame) {
         runGame.settings.setInteractive();
         runGame.overSettings.setInteractive();
         runGame.selectScreen.setAlpha(0);
+        runGame.inputText.setAlpha(1);
       })
   
       runGame[`alpaca${n}`].on('pointerover', () => runGame[`alpaca${n}`].setAlpha(1))

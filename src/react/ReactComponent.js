@@ -16,7 +16,6 @@ const Component = () => {
   const [high, setHigh] = useState([])
   const [mode, setMode] = useState(1)
   const [data, setData] = useState({})
-  const [disId, setDisId] = useState('')
   let id = getURLId();
 
   if (!id && Cookies.get('shareUrl')) {
@@ -60,8 +59,8 @@ const Component = () => {
           if (errors) console.log(errors)
           if (getRunById) setData(getRunById)
         })
-    } else if (disId) {
-      graphRequest(queryGetNopacaRunById, { id: disId })
+    } else if (Cookies.get('disId')) {
+      graphRequest(queryGetNopacaRunById, { id: Cookies.get('disId') })
         .then(res => {
           const { getNopacaRunById, errors } = res.data
           if (errors) console.log(errors)
@@ -139,11 +138,11 @@ const Component = () => {
         >
           <img id="leaderboardIcon" src={LeaderboardIcon} />
           <div>
-            {(!(ethereum || {}).selectedAddress) && 'Leaderboard'}
-            {(id && (ethereum || {}).selectedAddress) && (
+            {(!data.tokenId && !data.discord) && 'Leaderboard'}
+            {(data.tokenId || data.discord) && (
               <>
                 <div>
-                  #{data.tokenId}
+                  #{data.tokenId || data.discord}
                   <br />
                   Total: {data.totalScore} | Single : {data.highScore}
                 </div>
@@ -184,10 +183,10 @@ const Component = () => {
           </div>
           {mode === 1 && (
             <>
-              {total.map(({ tokenId, totalScore, image }) => (
+              {total.map(({ tokenId, discord, totalScore, image }) => (
                 <div key={tokenId} className="rank">
                   {(id && (ethereum || {}).selectedAddress) && <img src={image} />}
-                  <div>#{tokenId}</div>
+                  <div>#{tokenId || discord}</div>
                   <div className="score">{totalScore}</div>
                 </div>
               ))}
@@ -195,10 +194,10 @@ const Component = () => {
           )}
           {mode === 2 && (
             <>
-              {high.map(({ tokenId, highScore, image }) => (
+              {high.map(({ tokenId, discord, highScore, image }) => (
                 <div key={tokenId} className="rank">
                 {(id && (ethereum || {}).selectedAddress) && <img src={image} />}
-                  <div>#{tokenId}</div>
+                  <div>#{tokenId || discord}</div>
                   <div className="score">{highScore}</div>
                 </div>
               ))}

@@ -23,15 +23,18 @@ class PlayScene extends Phaser.Scene {
     this.spriteNumber = this.ownedAlpaca.length > 0 ? this.ownedAlpaca[0].token_id : '01';
     this.noStart  = false;
     this.frameTime = 0;
+    this.disId = Cookies.get('disId');
     this.physics.world.setFPS(60);
 
     this.shareId = getURLId()
 
-    if (this.shareId) this.spriteNumber = this.shareId
+    if (this.shareId) {
+      this.spriteNumber = this.shareId
     
-    let url = new URL(window.location);
-    url.searchParams.set('id', this.spriteNumber);
-    Cookies.set('shareUrl', url.href);
+      let url = new URL(window.location);
+      url.searchParams.set('id', this.spriteNumber);
+      Cookies.set('shareUrl', url.href);
+    }
 
     this.jumpSound = this.sound.add('jump', {volume: 0.2});
     this.hitSound = this.sound.add('hit', {volume: 0.2});

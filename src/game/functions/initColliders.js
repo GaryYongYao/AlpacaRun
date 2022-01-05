@@ -6,6 +6,7 @@ import { mutationUpdateRunScore, mutationUpdateNopacaRunScore } from '../../util
 function initColliders(runGame) {
   runGame.physics.add.collider(runGame.ground, runGame.alpaca);
   runGame.physics.add.collider(runGame.alpaca, runGame.obstacles, () => {
+    const { ethereum } = window;
     runGame.highScoreText.x = runGame.scoreText.x - runGame.scoreText.width - 20;
 
     const highScore = runGame.highScoreText.text.substr(runGame.highScoreText.text.length - 5);
@@ -25,18 +26,17 @@ function initColliders(runGame) {
         .catch(err =>  console.log(err))
     }
 
-    /* nopaca logic
-    if (runGame.shareId || (runGame.ownedAlpaca && runGame.ownedAlpaca.length > 0)) {
-      const tokenId = runGame.shareId ? runGame.shareId : runGame.spriteNumber
-      const code = encrypt({ tokenId, score: finalScore });
+    if (!runGame.shareId && !ethereum.selectedAddress && runGame.disId) {
+      const discord = runGame.disId
+      const code = encrypt({ discord, score: finalScore });
 
-      graphRequest(mutationUpdateRunScore, { code })
+      graphRequest(mutationUpdateNopacaRunScore, { code })
         .then(res => {
-          const { updateRunScore } = res.data
-          console.log(updateRunScore)
+          const { updateNopacaRunScore } = res.data
+          console.log(updateNopacaRunScore)
         })
         .catch(err =>  console.log(err))
-    } */
+    }
     
     const newScore = Number(runGame.scoreText.text) > Number(highScore) ? runGame.scoreText.text : highScore;
 

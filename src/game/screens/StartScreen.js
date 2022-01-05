@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 function StartScreen(runGame) {
   const { height, width } = runGame.game.config;
   const { ethereum } = window;
@@ -20,20 +22,25 @@ function StartScreen(runGame) {
     runGame.settings, runGame.settingsText2, runGame.settingsText
   ]
   
-  if (!ethereum.selectedAddress) {
+  if (!ethereum.selectedAddress && !runGame.shareId) {
     runGame.inputText = runGame.add.rexInputText(0, 175, 400, 50, {
       placeholder: 'Your Discord ID (without #)',
+      text: runGame.disId,
       paddingLeft: '25px',
       paddingRight: '25px',
       fontSize: '25px',
       backgroundColor: '#fff',
       color: '#000'
     })
+      .setStyle('border-radius', '10px')
       .setOrigin(0.5, 0.5)
-      .on('textchange', function (inputText) {
-        //remmerbr to trim then set cookie
-        inputText.setText(inputText.text)
-      });
+      .on('textchange', (inputText) => {
+        Cookies.set('disId', inputText.text);
+        runGame.disId = inputText.text;
+        // inputText.setText(inputText.text)
+      })
+      .on('focus', () => runGame.noStart = true)
+      .on('blur', () => runGame.noStart = false);
 
     startScreensComp.push(runGame.inputText);
   }
