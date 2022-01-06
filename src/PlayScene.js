@@ -15,7 +15,7 @@ class PlayScene extends Phaser.Scene {
     const { ethereum } = window
     
     this.ownedAlpaca = ethereum.selectedAddress ? getAlpacaIDs() : [];
-    this.gameSpeed = 18;
+    this.gs = 18;
     this.isGameRunning = false;
     this.respawnTime = 0;
     this.obsCount = 0;
@@ -61,11 +61,11 @@ class PlayScene extends Phaser.Scene {
     if (this.frameTime > 16) {  
       this.frameTime = 0;
 
-      this.ground.tilePositionX += this.gameSpeed;
-      Phaser.Actions.IncX(this.obstacles.getChildren(), -this.gameSpeed);
+      this.ground.tilePositionX += this.gs;
+      Phaser.Actions.IncX(this.obstacles.getChildren(), -this.gs);
       Phaser.Actions.IncX(this.environment.getChildren(), - 0.5);
   
-      this.respawnTime += 16.5 * this.gameSpeed * 0.08;
+      this.respawnTime += 16.5 * this.gs * 0.08;
       if (this.respawnTime >= 1500 && this.obsCount < 20) {
         this.obsCount++;
         placeObstacle(this);

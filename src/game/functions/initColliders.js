@@ -52,7 +52,7 @@ function initColliders(runGame) {
     runGame.anims.pauseAll();
     runGame.alpaca.setTexture(`alpaca-${runGame.spriteNumber}-hurt`);
     runGame.respawnTime = 0;
-    runGame.gameSpeed = 18;
+    runGame.gs = 18;
     runGame.gameOverScreen.setAlpha(1);
     runGame.score = 0;
     runGame.hitSound.play();
