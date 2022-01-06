@@ -14,8 +14,8 @@ export const getLibrary = (provider) => {
 export const getAlpacaIDs = () => JSON.parse(Cookies.get('alpacas') || '[]');
 export const getMultiplier = () => (Number(Cookies.get('multiplier') || 0) * 0.25) + 1;
 export const calibration = (calibrating) => {
-  if (calibrating.calibrate !== calibrating.score) whoosh(calibrating, "Don't Cheat");
-  if (calibrating.gs.toFixed(2) != 18+(0.01 * (calibrating.calibrate))) whoosh(calibrating, "Don't Cheat");
+  if (calibrating.calibrate !== calibrating.score) whoosh(calibrating, "Don't Cheat", false);
+  if (calibrating.gs.toFixed(2) != 18+(0.01 * (calibrating.calibrate))) whoosh(calibrating, "Don't Cheat", false);
 }
 
 export const getURLId = () => {

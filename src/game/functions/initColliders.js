@@ -3,7 +3,7 @@ import { graphRequest/* , getMultiplier */ } from '../../utils';
 import { encrypt } from '../../utils/crypto';
 import { mutationUpdateRunScore, mutationUpdateNopacaRunScore } from '../../utils/common';
 
-export function whoosh(runGame, text) {
+export function whoosh(runGame, text, s = true) {
   const { ethereum } = window;
   runGame.highScoreText.x = runGame.scoreText.x - runGame.scoreText.width - 20;
 
@@ -12,28 +12,30 @@ export function whoosh(runGame, text) {
   // const finalScore = Math.floor(Number(runGame.scoreText.text) * multiplier)
   const finalScore = Number(runGame.scoreText.text)
 
-  if (runGame.shareId || (runGame.ownedAlpaca && runGame.ownedAlpaca.length > 0)) {
-    const tokenId = runGame.shareId ? runGame.shareId : runGame.spriteNumber
-    const code = encrypt({ tokenId, score: finalScore });
-
-    graphRequest(mutationUpdateRunScore, { code })
-      .then(res => {
-        const { updateRunScore } = res.data
-        console.log(updateRunScore)
-      })
-      .catch(err =>  console.log(err))
-  }
-
-  if (!runGame.shareId && !ethereum.selectedAddress && runGame.disId) {
-    const discord = runGame.disId
-    const code = encrypt({ discord, score: finalScore });
-
-    graphRequest(mutationUpdateNopacaRunScore, { code })
-      .then(res => {
-        const { updateNopacaRunScore } = res.data
-        console.log(updateNopacaRunScore)
-      })
-      .catch(err =>  console.log(err))
+  if (s) {
+    if (runGame.shareId || (runGame.ownedAlpaca && runGame.ownedAlpaca.length > 0)) {
+      const tokenId = runGame.shareId ? runGame.shareId : runGame.spriteNumber
+      const code = encrypt({ tokenId, score: finalScore });
+  
+      graphRequest(mutationUpdateRunScore, { code })
+        .then(res => {
+          const { updateRunScore } = res.data
+          console.log(updateRunScore)
+        })
+        .catch(err =>  console.log(err))
+    }
+  
+    if (!runGame.shareId && !ethereum.selectedAddress && runGame.disId) {
+      const discord = runGame.disId
+      const code = encrypt({ discord, score: finalScore });
+  
+      graphRequest(mutationUpdateNopacaRunScore, { code })
+        .then(res => {
+          const { updateNopacaRunScore } = res.data
+          console.log(updateNopacaRunScore)
+        })
+        .catch(err =>  console.log(err))
+    }
   }
   
   const newScore = Number(runGame.scoreText.text) > Number(highScore) ? runGame.scoreText.text : highScore;

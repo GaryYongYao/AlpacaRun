@@ -6,7 +6,7 @@ function handleScore(runGame) {
     callback: () => {
       if (!runGame.isGameRunning) { return; }
 
-      runGame.score += 1;
+      runGame.score ++;
       runGame.gs += 0.01
 
       if (runGame.score % 500 === 0) {

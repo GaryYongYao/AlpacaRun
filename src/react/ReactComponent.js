@@ -185,7 +185,7 @@ const Component = () => {
           {mode === 1 && (
             <>
               {total.map(({ tokenId, discord, totalScore, image }, index) => (
-                <div key={tokenId} className="rank">
+                <div key={tokenId || discord} className="rank">
                   {(id && (ethereum || {}).selectedAddress) && <img src={image} />}
                   <div>
                     {tokenId ? '#' : `${index+1}. `}
@@ -199,7 +199,7 @@ const Component = () => {
           {mode === 2 && (
             <>
               {high.map(({ tokenId, discord, highScore, image }, index) => (
-                <div key={tokenId} className="rank">
+                <div key={tokenId || discord} className="rank">
                   {(id && (ethereum || {}).selectedAddress) && <img src={image} />}
                   <div>
                     {tokenId ? '#' : `${index+1}. `}

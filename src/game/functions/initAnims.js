@@ -36,7 +36,7 @@ function initAnims(runGame) {
 
   runGame.anims.create({
     key: 'enemy-pig-move',
-    frames: runGame.anims.generateFrameNumbers('enemy-pig', {start: 0, end: 9}),
+    frames: runGame.anims.generateFrameNumbers('enemy-pig', {start: 0, end: 8}),
     frameRate: 12,
     repeat: -1
   })
