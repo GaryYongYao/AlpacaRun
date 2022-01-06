@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import Cookies from 'js-cookie';
-import { getAlpacaIDs, getURLId } from './utils';
+import { getAlpacaIDs, getURLId, calibration } from './utils';
 import { GameScreen, OverScreen, SelectScreen, StartScreen } from './game/screens'
 import { initAnims, initColliders, initStartTrigger } from './game/functions/initiate'
 import { handleInputs, handleScore, placeObstacle } from './game/functions'
@@ -23,6 +23,7 @@ class PlayScene extends Phaser.Scene {
     this.spriteNumber = this.ownedAlpaca.length > 0 ? this.ownedAlpaca[0].token_id : '01';
     this.noStart  = false;
     this.frameTime = 0;
+    this.calibrate = 0;
     this.disId = Cookies.get('disId');
     this.physics.world.setFPS(60);
 
@@ -60,6 +61,8 @@ class PlayScene extends Phaser.Scene {
 
     if (this.frameTime > 16) {  
       this.frameTime = 0;
+
+      calibration(this)
 
       this.ground.tilePositionX += this.gs;
       Phaser.Actions.IncX(this.obstacles.getChildren(), -this.gs);

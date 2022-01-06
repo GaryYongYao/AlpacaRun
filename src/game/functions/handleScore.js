@@ -6,7 +6,7 @@ function handleScore(runGame) {
     callback: () => {
       if (!runGame.isGameRunning) { return; }
 
-      runGame.score++;
+      runGame.score += 1;
       runGame.gs += 0.01
 
       if (runGame.score % 500 === 0) {
@@ -46,6 +46,8 @@ function handleScore(runGame) {
           yoyo: true
         })
       }
+
+      runGame.calibrate++;
       
       const score = Array.from(String(runGame.score), Number);
       for (let i = 0; i < 5 - String(runGame.score).length; i++) {
