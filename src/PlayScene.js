@@ -24,6 +24,7 @@ class PlayScene extends Phaser.Scene {
     this.noStart  = false;
     this.frameTime = 0;
     this.calibrate = 0;
+    this.csv = 0;
     this.disId = Cookies.get('disId');
     this.physics.world.setFPS(60);
 
@@ -53,6 +54,17 @@ class PlayScene extends Phaser.Scene {
     initColliders(this);
     handleInputs(this);
     handleScore(this);
+
+    this.time.addEvent({
+      delay: 1000/10,
+      loop: true,
+      callbackScope: this,
+      callback: () => {
+        if (!this.isGameRunning) { return; }
+
+        this.csv++;
+      }
+    })
   }
 
   update(time, delta) {

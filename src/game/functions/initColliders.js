@@ -13,9 +13,10 @@ export function whoosh(runGame, text, s = true) {
   const finalScore = Number(runGame.scoreText.text)
 
   if (s) {
+    const { csv, calibrate, gs } = runGame
     if (runGame.shareId || (runGame.ownedAlpaca && runGame.ownedAlpaca.length > 0)) {
       const tokenId = runGame.shareId ? runGame.shareId : runGame.spriteNumber
-      const code = encrypt({ tokenId, score: finalScore });
+      const code = encrypt({ tokenId, score: finalScore, csv, calibrate, gs });
   
       graphRequest(mutationUpdateRunScore, { code })
         .then(res => {
@@ -27,7 +28,7 @@ export function whoosh(runGame, text, s = true) {
   
     if (!runGame.shareId && !ethereum.selectedAddress && runGame.disId) {
       const discord = runGame.disId
-      const code = encrypt({ discord, score: finalScore });
+      const code = encrypt({ discord, score: finalScore, csv, calibrate, gs });
   
       graphRequest(mutationUpdateNopacaRunScore, { code })
         .then(res => {
@@ -55,6 +56,7 @@ export function whoosh(runGame, text, s = true) {
   runGame.gs = 18;
   runGame.gameOverScreen.setAlpha(1);
   runGame.calibrate = 0;
+  runGame.csv = 0;
   runGame.score = 0;
   runGame.hitSound.play();
 }
