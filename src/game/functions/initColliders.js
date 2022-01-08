@@ -54,6 +54,7 @@ export function whoosh(runGame, text, s = true) {
   runGame.respawnTime = 0;
   runGame.gs = 18;
   runGame.gameOverScreen.setAlpha(1);
+  runGame.calibrate = 0;
   runGame.score = 0;
   runGame.hitSound.play();
 }
