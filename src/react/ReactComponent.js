@@ -14,7 +14,7 @@ import '../style/style.css';
 const Component = () => {
   const [total, setTotal] = useState([])
   const [high, setHigh] = useState([])
-  const [mode, setMode] = useState(1)
+  const [mode, setMode] = useState(2)
   const [data, setData] = useState({})
   let id = getURLId();
 
@@ -153,7 +153,7 @@ const Component = () => {
           <img id="arrow" src={Arrow} />
         </div>
         <div className="leaderboard-content">
-          <div className="leaderboard-mode">
+          {/* <div className="leaderboard-mode">
             <span
               onClick={e => {
                 e.preventDefault();
@@ -181,7 +181,7 @@ const Component = () => {
             >
               Single Run
             </span>
-          </div>
+          </div> */}
           {mode === 1 && (
             <>
               {total.map(({ tokenId, discord, totalScore, image }, index) => (
