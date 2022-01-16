@@ -21,19 +21,19 @@ function handleScore(runGame) {
         })
 
         runGame.firework1.play('orange-firework').setAlpha(1)
-        runGame.firework2.playAfterDelay('blue-firework', 50).setAlpha(1)
-        runGame.firework3.playAfterDelay('orange-firework', 100).setAlpha(1)
-        runGame.firework4.playAfterDelay('blue-firework', 150).setAlpha(1)
-        runGame.firework5.playAfterDelay('green-firework', 200).setAlpha(1)
+        runGame.firework2.play('blue-firework', 50).setAlpha(1)
+        runGame.firework3.play('orange-firework', 100).setAlpha(1)
+        runGame.firework4.play('blue-firework', 150).setAlpha(1)
+        runGame.firework5.play('green-firework', 200).setAlpha(1)
 
         
         setTimeout(() => {
-          runGame.firework1.stop().setAlpha(0)
-          runGame.firework2.stop().setAlpha(0)
-          runGame.firework3.stop().setAlpha(0)
-          runGame.firework4.stop().setAlpha(0)
-          runGame.firework5.stop().setAlpha(0)
-        }, 2500)
+          runGame.firework1.setAlpha(0)
+          runGame.firework2.setAlpha(0)
+          runGame.firework3.setAlpha(0)
+          runGame.firework4.setAlpha(0)
+          runGame.firework5.setAlpha(0)
+        }, 2000)
         
       } else if (runGame.score % 100 === 0) {
         runGame.reachSound.play();
@@ -48,7 +48,7 @@ function handleScore(runGame) {
       }
 
       runGame.calibrate++;
-      
+
       const score = Array.from(String(runGame.score), Number);
       for (let i = 0; i < 5 - String(runGame.score).length; i++) {
         score.unshift(0);
