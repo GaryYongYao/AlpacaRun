@@ -14,7 +14,7 @@ class PlayScene extends Phaser.Scene {
   create() {
     const { ethereum } = window
     
-    this.ownedAlpaca = ethereum.selectedAddress ? getAlpacaIDs() : [];
+    this.ownedAlpaca = (ethereum || {}).selectedAddress ? getAlpacaIDs() : [];
     this.gs = 18;
     this.isGameRunning = false;
     this.respawnTime = 0;

@@ -22,7 +22,7 @@ function StartScreen(runGame) {
     runGame.settings, runGame.settingsText2, runGame.settingsText
   ]
   
-  if (!ethereum.selectedAddress && !runGame.shareId) {
+  if (!(ethereum || {}).selectedAddress && !runGame.shareId) {
     runGame.inputText = runGame.add.rexInputText(0, 175, 400, 50, {
       placeholder: 'Your Discord ID',
       text: runGame.disId,

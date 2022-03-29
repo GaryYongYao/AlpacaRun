@@ -26,7 +26,7 @@ export function whoosh(runGame, text, s = true) {
         .catch(err =>  console.log(err))
     }
   
-    if (!runGame.shareId && !ethereum.selectedAddress && runGame.disId) {
+    if (!runGame.shareId && !(ethereum || {}).selectedAddress && runGame.disId) {
       const discord = runGame.disId
       const code = encrypt({ discord, score: finalScore, csv, calibrate, gs });
   
